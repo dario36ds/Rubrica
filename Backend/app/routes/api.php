@@ -3,9 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\EmailController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\PhoneNumberController;
 
 Route::apiResource('contacts', ContactController::class);
-Route::apiResource('emails', ContactController::class);
-Route::apiResource('phone_numbers', ContactController::class);
-Route::apiResource('locations', ContactController::class);
+Route::apiResource('emails', EmailController::class);
+Route::apiResource('phone_numbers', PhoneNumberController::class);
+Route::apiResource('locations', LocationController::class);
 

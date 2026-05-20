@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class PhoneNumbers extends Model
+class PhoneNumber extends Model
 {
     use HasFactory;
     protected $fillable = [
@@ -13,6 +13,6 @@ class PhoneNumbers extends Model
     ];
 
     public function contacts(){
-        return $this->belongsTo(Contacts::class);
+        return $this->belongsTo(Contact::class);
     }
 }

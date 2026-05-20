@@ -15,6 +15,10 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string("address");
+            $table->foreignId("contact_id")
+                ->constrained()
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
         });
     }
 

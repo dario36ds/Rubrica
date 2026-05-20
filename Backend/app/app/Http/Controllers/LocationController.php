@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Email;
+use App\Models\PhoneNumber;
 use App\Models\Location;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class LocationController extends Controller
@@ -22,6 +25,7 @@ class LocationController extends Controller
     {
         $validated = $request->validate([
             'address'=> ['required', 'string'],
+            'contact_id' => ['required', 'exists:contacts,id'],
         ]);
 
         $location = Location::create($validated);
@@ -43,6 +47,7 @@ class LocationController extends Controller
     {
         $validated = $request->validate([
             'address'=> ['sometimes', 'required', 'string'],
+            'contact_id' => ['sometimes', 'required', 'exists:contacts,id'],
         ]);
 
         $location->update($validated);

@@ -10,9 +10,10 @@ class Location extends Model
         use HasFactory;
     protected $fillable = [
     'address',
+    'contact_id'
     ];
 
     public function contacts(){
-        return $this->hasMany(Contacts::class);
+        return $this->belongsTo(Contact::class);
     }
 }

@@ -9,17 +9,17 @@ class Contact extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name','description', 'surname', 'favourited', 'location_id'];
+    protected $fillable = ['name','description', 'surname', 'favourited'];
 
     public function locations(){
-        return $this->belongsTo(Location::class);
+        return $this->hasMany(Location::class);
     }
     
     public function emails(){
-        return $this->hasMany(Emails::class);
+        return $this->hasMany(Email::class);
     }
 
     public function phoneNumbers(){
-        return $this->hasMany(PhoneNumbers::class);
+        return $this->hasMany(PhoneNumber::class);
     }
 }

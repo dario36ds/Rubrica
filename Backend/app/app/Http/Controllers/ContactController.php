@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Contact;
+use App\Models\Email;
 use App\Models\PhoneNumber;
+use App\Models\Location;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ContactController extends Controller
@@ -26,7 +28,6 @@ class ContactController extends Controller
             'surname'=> ['required', 'string', 'max:255'],
             'description'=> ['string', 'max:255'],
             'favourited' => ['boolean'],
-            'location_id' => ['nullable', 'exists:location,id']
         ]);
 
         $contact = Contact::create($validated);
@@ -38,7 +39,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        return $contact->load(['phone_number']);
+        return $contact->load(['phoneNumbers']);
     }
 
     /**
@@ -51,7 +52,6 @@ class ContactController extends Controller
             'surname'=> ['sometimes', 'required', 'string', 'max:255'],
             'description'=> ['sometimes', 'string', 'max:255'],
             'favourited' => ['sometimes', 'boolean'],
-            'location_id' => ['sometimes', 'exists:location,id']
         ]);
 
         $contact->update($validated);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Email;
 use App\Models\PhoneNumber;
+use App\Models\Location;
 use App\Models\Contact;
 use Illuminate\Http\Request;
 
