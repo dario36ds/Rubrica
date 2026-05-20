@@ -37,7 +37,7 @@ class PhoneNumberController extends Controller
      */
     public function show(PhoneNumber $number)
     {
-        return $number->load(['contacts']);
+        return $number->load(['contact']);
     }
 
     /**

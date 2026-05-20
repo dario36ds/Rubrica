@@ -37,7 +37,7 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        return $location->load(['contacts']);
+        return $location->load(['contact']);
     }
 
     /**

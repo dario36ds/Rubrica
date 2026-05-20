@@ -12,7 +12,7 @@ class PhoneNumber extends Model
     'phone_number', 'contact_id'
     ];
 
-    public function contacts(){
+    public function contact(){
         return $this->belongsTo(Contact::class);
     }
 }

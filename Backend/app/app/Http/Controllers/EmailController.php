@@ -37,7 +37,7 @@ class EmailController extends Controller
      */
     public function show(Email $email)
     {
-        return $email->load(['contacts']);
+        return $email->load(['contact']);
     }
 
     /**
