@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text("description")->nullable();
             $table->boolean("favourited")->default(false);
             $table->foreignId("location_id")
+                ->nullable()
                 ->constrained()
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
