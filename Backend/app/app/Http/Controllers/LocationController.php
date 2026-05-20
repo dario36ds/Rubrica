@@ -12,7 +12,7 @@ class LocationController extends Controller
      */
     public function index()
     {
-        //
+        return Location::all();
     }
 
     /**
@@ -20,7 +20,12 @@ class LocationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'address'=> ['required', 'string'],
+        ]);
+
+        $location = Location::create($validated);
+        return response()->json($location, 201);
     }
 
     /**
@@ -28,7 +33,7 @@ class LocationController extends Controller
      */
     public function show(Location $location)
     {
-        //
+        return $location->load(['contacts']);
     }
 
     /**
@@ -36,7 +41,12 @@ class LocationController extends Controller
      */
     public function update(Request $request, Location $location)
     {
-        //
+        $validated = $request->validate([
+            'address'=> ['sometimes', 'required', 'string'],
+        ]);
+
+        $location->update($validated);
+        return response()->json($location, 201);
     }
 
     /**
@@ -44,6 +54,7 @@ class LocationController extends Controller
      */
     public function destroy(Location $location)
     {
-        //
+        $location->delete();
+        return response()->json(null);
     }
 }
