@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Email;
+use App\Models\PhoneNumber;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class EmailController extends Controller
@@ -12,7 +14,7 @@ class EmailController extends Controller
      */
     public function index()
     {
-        //
+        return Email::all();
     }
 
     /**
@@ -20,7 +22,13 @@ class EmailController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'mail'=> ['required', 'string', 'email'],
+            'contact_id' => ['required', 'exists:contacts,id'],
+        ]);
+
+        $email = Email::create($validated);
+        return response()->json($email, 201);
     }
 
     /**
@@ -28,7 +36,7 @@ class EmailController extends Controller
      */
     public function show(Email $email)
     {
-        //
+        return $email->load(['contacts']);
     }
 
     /**
@@ -36,7 +44,12 @@ class EmailController extends Controller
      */
     public function update(Request $request, Email $email)
     {
-        //
+        $validated=$request->validate([
+            'mail'=> ['sometimes', 'required', 'string', 'email']
+        ]);
+
+        $email->update($validated);
+        return response()->json($email, 201);
     }
 
     /**
@@ -44,6 +57,7 @@ class EmailController extends Controller
      */
     public function destroy(Email $email)
     {
-        //
+        $email->delete();
+        return response()->json(null);
     }
 }
