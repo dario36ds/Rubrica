@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('phone_numbers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer("phone_number");
+            $table->string("phone_number");
             $table->foreignId("contact_id")
                 ->constrained()
                 ->restrictOnDelete()
