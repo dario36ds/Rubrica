@@ -17,51 +17,76 @@ const AddressField = document.getElementById("address");
 const AddAddress = document.getElementById("addAddress");
 const PostContact = document.getElementById("postContact");
 const SearchContact = document.getElementById("search");
-const getResult = document.getElementById("getResult");
+const getResult = document.getElementById("backendContactContainer");
+const GetAllContacts = document.getElementById("btnShowAll");
 
-//GET\\
+//GET//
 
-SearchContact.addEventListener("change", () => {
-    apiRequest(host + "/contacts", "GET")
-        .then((data) => {
-            const table = document.createElement("table");
-            const trH = document.createElement("tr");
-            const th = document.createElement("th");
-            const th1 = document.createElement("th");
-            th.textContent = "Liste";
-            th1.textContent = "Descrizione";
-            trH.appendChild(th);
-            trH.appendChild(th1);
-            table.appendChild(trH);
-            getResult.innerHTML = "";
-            for (const list of data) {
-                const tr = document.createElement("tr");
-                const td2 = document.createElement("td");
-                const td3 = document.createElement("td");
-                td2.innerHTML = list.name;
-                td3.innerHTML = list.surname;
-                tr.appendChild(td2);
-                tr.appendChild(td3);
-                table.appendChild(tr);
-            }
-            getResult.appendChild(table);
-        })
-        .catch((error) => console.error(error));
+GetAllContacts.addEventListener("click", () => {
+  apiRequest(host + "/contacts", "GET")
+    .then((data) => {
+      const table = document.createElement("table");
+      const trH = document.createElement("tr");
+      const th = document.createElement("th");
+      const th1 = document.createElement("th");
+      th.textContent = "Nome";
+      th1.textContent = "Cognome";
+      trH.appendChild(th);
+      trH.appendChild(th1);
+      table.appendChild(trH);
+      getResult.innerHTML = "";
+      for (const contatto of data) {
+        const tr = document.createElement("tr");
+        const td2 = document.createElement("td");
+        const td3 = document.createElement("td");
+        const td4 = document.createElement("td");
+        td2.innerHTML = contatto.name;
+        td3.innerHTML = contatto.surname;
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+        table.appendChild(tr);
+      }
+      getResult.appendChild(table);
+    })
+    .catch((error) => console.error(error));
 });
 
 //POST//
 PostContact.addEventListener("click", () => {
-    console.log(NameField.value, SurnameField.value);
-    apiRequest(host + "/contacts", "POST", {
-        name: NameField.value,
-        surname: SurnameField.value,
-    })
-        .then((data) => {
-            console.log(data);
-        })
-        .catch((error) => console.error(error));
-});
+  console.log(NameField.value, SurnameField.value);
+  apiRequest(host + "/contacts", "POST", {
+    name: NameField.value,
+    surname: SurnameField.value,
+  })
+    .then((data) => {
+      console.log(data);
+      MyID = data.id;
 
+
+      apiRequest(host + "/emails", "POST", {
+        contact_id: MyID,
+        mail: EmailField.value,
+      })
+        .then((data)=>{
+        console.log(data);
+      })
+      apiRequest(host + "/numbers", "POST", {
+        contact_id: MyID,
+        phone_number: NumberField.value,
+      })
+        .then((data)=>{
+        console.log(data);
+      })
+      apiRequest(host + "/locations", "POST", {
+        contact_id: MyID,
+        address: AddressField.value,
+      })
+        .then((data)=>{
+        console.log(data);
+      })
+    })
+    .catch((error) => console.error(error));
+});
 
 /*
  putListButton.addEventListener('click', ()=>{

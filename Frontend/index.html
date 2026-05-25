@@ -13,14 +13,20 @@
         <div class="form-panel">
             <h2>Aggiungi Contatto</h2>
                 
-                <div class="form-group">
-                    <label for="name">Nome</label>
-                    <input type="text" id="name" class="form-control" placeholder="es. Mario" required>
-                    <label for="surname">Cognome</label>
-                    <input type="text" id="surname" class="form-control" placeholder="es. Rossi" required>
+                <div id="backendContactContainer" class="form-group">
                 </div>
 
                 <div class="form-group">
+                    <label>Nome<label>
+                    <div class="dynamic-input-group">
+                        <input type="tel" id="name" class="form-control" placeholder="Mario">
+                    </div>
+
+                    <label>Cognome</label>
+                    <div class="dynamic-input-group">
+                        <input type="tel" id="surname" class="form-control" placeholder="Rossi">
+                    </div>
+
                     <label>Numeri di Telefono</label>
                     <div class="dynamic-input-group">
                         <input type="tel" id="number" class="form-control" placeholder="es. +39 333 1234567">
@@ -46,12 +52,16 @@
                 <button type="submit" id="postContact" class="btn-submit">Salva in Rubrica</button>
             
         </div>
-<!--------------->
+
         <div class="list-panel">
             <h2>I tuoi Contatti</h2>
             
-            <div class="search-bar">
-                <input type="text" id="search" class="form-control" placeholder="Cerca contatto per nome o cognome...">
+            <div class="search-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                <div class="dynamic-input-group">
+                    <input type="text" id="searchName" class="form-control" placeholder="Cerca contatto per nome...">
+                    <button type="button" id="btnSearch" class="btn-add-field" title="Cerca" style="padding: 0 15px; font-size: 14px;">Cerca</button>
+                </div>
+                <button type="button" id="btnShowAll" class="btn-submit" style="margin: 0; background-color: #6c757d;">Mostra Tutti i Contatti</button>
             </div>
 
             <div class="contacts-grid" id="contactsGrid">
