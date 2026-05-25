@@ -9,7 +9,7 @@ class Contact extends Model
 {
     use HasFactory;
     
-    protected $fillable = ['name','description', 'surname', 'favourited'];
+    protected $fillable = ['name', 'description', 'surname', 'favourited'];
 
     public function locations(){
         return $this->hasMany(Location::class);
