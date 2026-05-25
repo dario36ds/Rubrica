@@ -19,6 +19,7 @@ const PostContact = document.getElementById("postContact");
 const SearchContact = document.getElementById("search");
 const getResult = document.getElementById("backendContactContainer");
 const GetAllContacts = document.getElementById("btnShowAll");
+const FavouriteChecbox = document.getElementById("isFavorite");
 
 //GET//
 
@@ -57,12 +58,12 @@ PostContact.addEventListener("click", () => {
   apiRequest(host + "/contacts", "POST", {
     name: NameField.value,
     surname: SurnameField.value,
+    favourited :FavouriteChecbox.checked,
   })
     .then((data) => {
       console.log(data);
       MyID = data.id;
-
-
+      
       apiRequest(host + "/emails", "POST", {
         contact_id: MyID,
         mail: EmailField.value,

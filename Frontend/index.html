@@ -17,14 +17,22 @@
                 </div>
 
                 <div class="form-group">
-                    <label>Nome<label>
+                    <label for="name">Nome</label>
                     <div class="dynamic-input-group">
-                        <input type="tel" id="name" class="form-control" placeholder="Mario">
+                        <input type="text" id="name" class="form-control" placeholder="Mario">
                     </div>
 
-                    <label>Cognome</label>
+                    <label for="surname">Cognome</label>
                     <div class="dynamic-input-group">
-                        <input type="tel" id="surname" class="form-control" placeholder="Rossi">
+                        <input type="text" id="surname" class="form-control" placeholder="Rossi">
+                    </div>
+
+                    <div class="fav-input-group" style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 14px; font-weight: bold; color: #333;">Aggiungi ai preferiti:</span>
+                        <label class="card-fav-toggle" style="cursor: pointer; font-size: 20px;">
+                            <input type="checkbox" id="isFavorite">
+                            <span class="star">★</span>
+                        </label>
                     </div>
 
                     <label>Numeri di Telefono</label>
@@ -70,7 +78,7 @@
                     <div class="contact-header">
                         <span class="contact-name">Mario Rossi</span>
                         <label class="card-fav-toggle">
-                            <input type="checkbox" checked>
+                            <input type="checkbox" id="favourite">
                             <span class="star">★</span>
                         </label>
                     </div>
