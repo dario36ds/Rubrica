@@ -39,7 +39,7 @@ class ContactController extends Controller
      */
     public function show(Contact $contact)
     {
-        return $contact->load(['phoneNumbers']);
+        return $contact->load(['phoneNumbers', 'emails', 'locations']);
     }
 
     /**
