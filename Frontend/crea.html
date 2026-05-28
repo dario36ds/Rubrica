@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubrica - Nuovo Contatto</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container" style="max-width: 800px; margin: 0 auto; padding: 20px;">
+        
+        <nav style="margin-bottom: 20px;">
+            <a href="visualizza.html" style="color: #0056b3; font-weight: bold; text-decoration: none;">🔍 Vai a Visualizza / Modifica</a>
+        </nav>
+
+        <section class="form-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #0056b3;">➕ Aggiungi Nuovo Contatto</h2>
+                
+            <div class="form-group">
+                <label for="name">Nome</label>
+                <div class="dynamic-input-group">
+                    <input type="text" id="name" class="form-control" placeholder="es. Mario">
+                </div>
+
+                <label for="surname">Cognome</label>
+                <div class="dynamic-input-group">
+                    <input type="text" id="surname" class="form-control" placeholder="es. Rossi">
+                </div>
+
+                <div class="fav-input-group" style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
+                    <span style="font-size: 14px; font-weight: bold;">Aggiungi ai preferiti:</span>
+                    <label class="card-fav-toggle" style="cursor: pointer; font-size: 20px;">
+                        <input type="checkbox" id="isFavorite">
+                        <span class="star">★</span>
+                    </label>
+                </div>
+
+                <label>Numeri di Telefono</label>
+                <div class="dynamic-input-group">
+                    <input type="tel" id="number" class="form-control" placeholder="es. +39 333 1234567">
+                    <button type="button" id="addNumber" class="btn-add-field" title="Aggiungi numero">+</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Indirizzi Email</label>
+                <div class="dynamic-input-group">
+                    <input type="email" id="email" class="form-control" placeholder="es. mario.rossi@email.com">
+                    <button type="button" id="addEmail" class="btn-add-field" title="Aggiungi email">+</button>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Indirizzi</label>
+                <div class="dynamic-input-group">
+                    <input type="text" id="address" class="form-control" placeholder="es. Via Roma 10, Milano">
+                    <button type="button" id="addAddress" class="btn-add-field" title="Aggiungi indirizzo">+</button>
+                </div>
+            </div>
+            
+            <button type="submit" id="postContact" class="btn-submit" style="width: 100%; margin-top: 10px;">Salva in Rubrica</button>
+        </section>
+
+    </div>
+    
+    <script src="api.js"></script>
+    <script src="main_crea.js"></script>
+</body>
+</html>

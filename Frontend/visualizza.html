@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubrica - Visualizza e Modifica</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container" style="display: flex; flex-direction: column; gap: 40px; max-width: 800px; margin: 0 auto; padding: 20px;">
+        
+        <nav>
+            <a href="crea.html" style="color: #28a745; font-weight: bold; text-decoration: none;">➕ Crea Nuovo Contatto</a>
+        </nav>
+
+        <section class="form-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #0056b3;">Gestisci Contatto Selezionato</h2>
+                
+            <div class="form-group" style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 4px;">
+                <label for="contactSelect" style="font-weight: bold; display: block; margin-bottom: 5px;">Scegli un contatto da caricare:</label>
+                <select id="contactSelect" class="form-control" style="width: 100%; padding: 8px;">
+                    <option value="">-- Scegli un contatto --</option>
+                    </select>
+            </div>
+
+            <div id="backendContactContainer" class="form-group">
+                </div>
+        </section>
+
+        <hr style="border: 0; border-top: 1px solid #ccc; margin: 0;">
+
+        <section class="list-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
+            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #28a745;">I tuoi Contatti</h2>
+            
+            <div class="search-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+                <div class="dynamic-input-group">
+                    <input type="text" id="searchName" class="form-control" placeholder="Cerca contatto per nome...">
+                    <button type="button" id="btnSearch" class="btn-add-field" style="padding: 0 15px;">Cerca</button>
+                </div>
+                <button type="button" id="btnShowAll" class="btn-submit" style="margin: 0; background-color: #6c757d; width: 100%;">Mostra Tutti i Contatti</button>
+            </div>
+
+            <div class="contacts-grid" id="contactsGrid">
+                </div>
+        </section>
+
+    </div>
+    
+    <script src="api.js"></script>
+    <script src="main_visualizza.js"></script>
+</body>
+</html>
