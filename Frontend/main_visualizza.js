@@ -7,9 +7,15 @@ const ContactsTendina = document.getElementById("contactSelect");
 const getResult = document.getElementById("backendContactContainer");
 const SearchContact = document.getElementById("search");
 const GetAllContacts = document.getElementById("btnShowAll");
-const select=document.getElementById("contactSelect");
+const select = document.getElementById("contactSelect");
+const SearchField = document.getElementById("searchName");
+const SearchButton = document.getElementById("btnSearch");
+const UpdateContactButton = document.getElementById("btnUpdateContact");
+const NameField = document.getElementById("editName");
+const SurnameField = document.getElementById("editSurname");
+const FavouritedCheckbox = document.getElementById("editIsFavorite");
 //GET//
-
+/*
 GetAllContacts.addEventListener("click", () => {
   apiRequest(host + "/contacts", "GET")
     .then((data) => {
@@ -40,6 +46,43 @@ GetAllContacts.addEventListener("click", () => {
    
     .catch((error) => console.error(error));
 });
+*/
+
+SearchButton.addEventListener("click", ()=>{
+    apiRequest(host+"/contacts", "GET", {})
+    .then(data => {
+        select.innerHTML="";
+        for(contatto of data){
+            if(contatto.name.includes(SearchField.value)){
+                const option=document.createElement("option");
+                option.value=contatto.id;
+                option.innerHTML=contatto.name + " " + contatto.surname;
+                select.appendChild(option);
+            
+            }
+                
+        }
+    })
+})
+
+FavouritedCheckbox.addEventListener("click", ()=>{
+    apiRequest(host+"/contacts/"+ select.value, "PUT", {favourited: FavouritedCheckbox.checked})
+    .then(data => {
+        console.log(data);
+    })
+    .catch((error) => console.error(error));
+    loadContacts();
+})
+
+UpdateContactButton.addEventListener("click", ()=>{
+    apiRequest(host+"/contacts/" + select.value, "PUT", {name: NameField.value , surname: SurnameField.value})
+    .then(data => {
+        console.log(data);
+    })
+    .catch((error) => console.error(error));
+    loadContacts();
+})
+
 
 function loadContacts(){
   apiRequest(host+"/contacts", 'GET', {})
@@ -55,12 +98,16 @@ function loadContacts(){
     })
     .catch(error => console.error(error));
 }
-
 loadContacts();
 
+
 select.addEventListener("change", () =>{
-    document.getElementById("backendContactContainer").style = "display:block"
+    document.getElementById("backendContactContainer").style = "display:block";
 })
+
+
+
+
 
 /*
  putListButton.addEventListener('click', ()=>{
