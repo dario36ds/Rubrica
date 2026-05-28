@@ -1,27 +1,13 @@
 const host = "http://localhost:8000/api";
 
 // -- LOAD TENDINE -- //
-const ElementTendina = document.getElementById("menu-tendina-elementi");
-const ListTendina = document.getElementById("menu-tendina-liste");
-const ListsTendina = document.getElementById("menu-tendina-lists");
+const ContactsTendina = document.getElementById("contactSelect");
 
-//----- CRUD LIST -----//
 
-const NameField = document.getElementById("name");
-const SurnameField = document.getElementById("surname");
-const NumberField = document.getElementById("number");
-const AddNumber = document.getElementById("addNumber");
-const EmailField = document.getElementById("email");
-const AddEmail = document.getElementById("addEmail");
-const AddressField = document.getElementById("address");
-const AddAddress = document.getElementById("addAddress");
-const PostContact = document.getElementById("postContact");
-const SearchContact = document.getElementById("search");
 const getResult = document.getElementById("backendContactContainer");
+const SearchContact = document.getElementById("search");
 const GetAllContacts = document.getElementById("btnShowAll");
-const FavouriteChecbox = document.getElementById("isFavorite");
-const tr = document.getElementsByTagName("tr");
-
+const select=document.getElementById("contactSelect");
 //GET//
 
 GetAllContacts.addEventListener("click", () => {
@@ -55,42 +41,26 @@ GetAllContacts.addEventListener("click", () => {
     .catch((error) => console.error(error));
 });
 
-//POST//
-PostContact.addEventListener("click", () => {
-  console.log(NameField.value, SurnameField.value);
-  apiRequest(host + "/contacts", "POST", {
-    name: NameField.value,
-    surname: SurnameField.value,
-    favourited :FavouriteChecbox.checked,
-  })
-    .then((data) => {
-      console.log(data);
-      MyID = data.id;
-
-      apiRequest(host + "/emails", "POST", {
-        contact_id: MyID,
-        mail: EmailField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
-      apiRequest(host + "/numbers", "POST", {
-        contact_id: MyID,
-        phone_number: NumberField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
-      apiRequest(host + "/locations", "POST", {
-        contact_id: MyID,
-        address: AddressField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
+function loadContacts(){
+  apiRequest(host+"/contacts", 'GET', {})
+    .then(data => {
+      select.innerHTML="";
+      for (const contatto of data){
+        const option=document.createElement("option");
+        option.value=contatto.id;
+        option.innerHTML=contatto.name + " " + contatto.surname;
+        select.appendChild(option);
+      }
+      
     })
-    .catch((error) => console.error(error));
-});
+    .catch(error => console.error(error));
+}
+
+loadContacts();
+
+select.addEventListener("change", () =>{
+    document.getElementById("backendContactContainer").style = "display:block"
+})
 
 /*
  putListButton.addEventListener('click', ()=>{
