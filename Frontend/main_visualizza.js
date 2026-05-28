@@ -7,7 +7,6 @@ const ContactsTendina = document.getElementById("contactSelect");
 const getResult = document.getElementById("backendContactContainer");
 const SearchContact = document.getElementById("search");
 const GetAllContacts = document.getElementById("btnShowAll");
-const select = document.getElementById("contactSelect");
 const SearchField = document.getElementById("searchName");
 const SearchButton = document.getElementById("btnSearch");
 const UpdateContactButton = document.getElementById("btnUpdateContact");
@@ -15,6 +14,8 @@ const NameField = document.getElementById("editName");
 const SurnameField = document.getElementById("editSurname");
 const FavouritedCheckbox = document.getElementById("editIsFavorite");
 const VisualizzaTendina = document.getElementById("contactSelect");
+const ModificaTendina = document.getElementById("contactSelectEdit");
+const DivTendina = document.getElementById("editContactFormContainer");
 //GET//
 /*
 GetAllContacts.addEventListener("click", () => {
@@ -52,13 +53,24 @@ GetAllContacts.addEventListener("click", () => {
 SearchButton.addEventListener("click", ()=>{
     apiRequest(host+"/contacts", "GET", {})
     .then(data => {
-        select.innerHTML="";
+        VisualizzaTendina.innerHTML="";
+        ModificaTendina.innerHTML="";
         for(contatto of data){
             if(contatto.name.includes(SearchField.value)){
                 const option=document.createElement("option");
                 option.value=contatto.id;
                 option.innerHTML=contatto.name + " " + contatto.surname;
-                select.appendChild(option);
+                ModificaTendina.appendChild(option);
+            
+            }
+                
+        }
+        for(contatto of data){
+            if(contatto.name.includes(SearchField.value)){
+                const option=document.createElement("option");
+                option.value=contatto.id;
+                option.innerHTML=contatto.name + " " + contatto.surname;
+                VisualizzaTendina.appendChild(option);
             
             }
                 
@@ -66,12 +78,40 @@ SearchButton.addEventListener("click", ()=>{
     })
 })
 
+ModificaTendina.addEventListener("change", () =>{
+  DivTendina.style = "display: block";
+   apiRequest(host + "/contacts/" + ModificaTendina.value, "GET", {})
+  .then((data) => {
+    document.getElementById("editTitle").innerHTML = "";
+    document.getElementById("editTitle").append("Stai modificando il contatto" + " " + data.name + " " + data.surname);
+    document.getElementById("editName").placeholder= data.name;
+    document.getElementById("editSurname").placeholder= data.surname;
+
+    for (numeri of data.phone_numbers) {
+      const input = document.createElement("input");
+      input.type="tel";
+      input.style="form-control";
+      console.log(numeri.phone_number);
+      document.getElementById("numbercontainer").appendChild(input);
+    }
+    document.getElementById("editNumber").placeholder= data.phone_numbers.phone_number;
+})
+});
+
+
 VisualizzaTendina.addEventListener("change", () => {
-  apiRequest(host + "/contacts/" + select.value, "GET", {}).then((data) => {
+  apiRequest(host + "/contacts/" + VisualizzaTendina.value, "GET", {})
+  .then((data) => {
     getResult.style = "display:block";
     document.getElementById("viewDetailName").innerHTML = data.name;
     document.getElementById("viewDetailSurname").innerHTML = data.surname;
+
+    document.getElementById("viewDetailNumeriContainer").innerHTML = "";
+    document.getElementById("viewDetailEmailContainer").innerHTML = "";
+    document.getElementById("viewDetailIndirizzo").innerHTML = "";
+
     for (numeri of data.phone_numbers) {
+      
       const list = document.createElement("ul");
       const li = document.createElement("li");
       li.innerHTML = numeri.phone_number;
@@ -101,7 +141,7 @@ VisualizzaTendina.addEventListener("change", () => {
 
 
 FavouritedCheckbox.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts/"+ select.value, "PUT", {favourited: FavouritedCheckbox.checked})
+    apiRequest(host+"/contacts/"+ VisualizzaTendina.value, "PUT", {favourited: FavouritedCheckbox.checked})
     .then(data => {
         console.log(data);
     })
@@ -110,7 +150,7 @@ FavouritedCheckbox.addEventListener("click", ()=>{
 })
 
 UpdateContactButton.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts/" + select.value, "PUT", {name: NameField.value , surname: SurnameField.value})
+    apiRequest(host+"/contacts/" + VisualizzaTendina.value, "PUT", {name: NameField.value , surname: SurnameField.value})
     .then(data => {
         console.log(data);
     })
@@ -122,12 +162,12 @@ UpdateContactButton.addEventListener("click", ()=>{
 function loadContacts(){
   apiRequest(host+"/contacts", 'GET', {})
     .then(data => {
-      select.innerHTML="";
+      VisualizzaTendina.innerHTML="";
       for (const contatto of data){
         const option=document.createElement("option");
         option.value=contatto.id;
         option.innerHTML=contatto.name + " " + contatto.surname;
-        select.appendChild(option);
+        ModificaTendina.appendChild(option);
       }
       
     })
@@ -135,10 +175,10 @@ function loadContacts(){
 }
 loadContacts();
 
-function loadContactShow(){
+function loadContactsShow(){
   apiRequest(host+"/contacts", 'GET', {})
     .then(data => {
-      select.innerHTML="";
+      VisualizzaTendina.innerHTML="";
       for (const contatto of data){
         const option=document.createElement("option");
         option.value=contatto.id;
@@ -150,210 +190,3 @@ function loadContactShow(){
     .catch(error => console.error(error));
 }
 loadContactsShow();
-
-
-
-
-
-/*
- putListButton.addEventListener('click', ()=>{
- apiRequest(host+"/list/"+ListsTendina.value , 'PUT', { name: putListTitleField.value})
-  .then(data=>{
-    console.log(data);
-
-  })
-  getListButton.click();
-});
-
-
-//DELETE//
-const deleteListButton=document.getElementById("delete-list-button");
-
-deleteListButton.addEventListener('click', ()=>{
-apiRequest(host+"/list/"+ ListsTendina.value , 'DELETE' , {})
- .then(data=>{
-   console.log(data);
-
-  })
-  getListButton.click();
-});
-
-
-
-
-
-//----- CRUD ELEMENT  -----//
-
-*/
-
-const PostElementButton=document.getElementById("post-element-button");
-const PostElementField=document.getElementById("post-element-field");
-const getContactButton=document.getElementById("btnSearch");
-const getResult2=document.getElementById("get-result2");
-
-
- //GET//
-getContactButton.addEventListener('click', () => {
-  apiRequest(host + "/contacts/" + 19, 'GET', {})
-    .then(data => {
-      getResult.innerHTML = "";
-      console.log(data);
-      if(data.length==0){
-        getResult.innerHTML="NON CI SONO ELEMENTI NELLA LISTA SELEZIONATA"
-      }
-      const table = document.createElement("table");
-      const trH = document.createElement("tr");
-      const th = document.createElement("th");
-      th.textContent = data.name;
-      th.colSpan = 3;
-      trH.appendChild(th);
-
-      const tr1 = document.createElement("tr");
-      const tdtesto = document.createElement("td");
-      tdtesto.textContent = "Nome";
-      tr1.appendChild(tdtesto);
-
-
-      const tdstato = document.createElement("td");
-      tdstato.textContent = "Stato";
-      tr1.appendChild(tdstato);
-
-      const tdcheckbox = document.createElement("td");
-      tdcheckbox.textContent = "Done / To-do";
-      tr1.appendChild(tdcheckbox);
-
-      table.appendChild(trH);
-      table.appendChild(tr1);
-        const tr = document.createElement("tr");
-        const td2 = document.createElement("td");
-        td2.innerHTML = data.name;
-        tr.appendChild(td2);
-        const td3 = document.createElement("td");
-        td3.innerHTML = data.favourited == 0 ? "TODO" : "DONE";
-        tr.appendChild(td3);
-        const td4 = document.createElement("td");
-        const checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.checked = data.favourited == 1;
-        checkbox.addEventListener("change", () => {
-          let stato;
-          const id=data.id;
-          if (checkbox.checked) {
-            stato = 1;
-          }
-          else { stato = 0; }
-          apiRequest(host + "/contacts/" + 19, "PUT", {favourited: stato})
-            .then(() => {
-              console.log(data);
-            })
-            .catch(err => console.error(err));
-        });
-        td4.appendChild(checkbox);
-        tr.appendChild(td4);
-        table.appendChild(tr);
-      getResult.appendChild(table);
-    })
-}
-);
-
-
-/*
-//POST//
-PostElementButton.addEventListener('click', ()=>{
-apiRequest(host+"/element", 'POST', { name: PostElementField.value , listId: ListTendina.value , status:0})
-  .then(data=>{
-    console.log(data);
-
-  })
-  getElementButton.click();
-});
-
-
-//DELETE//
-const DeleteElementIdField = document.getElementById("delete-element-id-field");
-const DeleteElementButton = document.getElementById("delete-element-button");
-
-DeleteElementButton.addEventListener('click', ()=> {
-  apiRequest(host+"/element/"+ElementTendina.value, 'DELETE' , {})
-  .then(data => {
-    console.log(data)
-  })
-  getElementButton.click();
-});
-
-//PUT//
-
-const PutElementTextField = document.getElementById("put-element-text-field");
-const PutElementButton = document.getElementById("put-element-button");
-
-
-
- PutElementButton.addEventListener('click', ()=>{
- apiRequest(host+"/element/"+ElementTendina.value , 'PUT', { name: PutElementTextField.value})
-  .then(data=>{
-    console.log(data);
-
-  })
-  getElementButton.click();
-});
-
-// LOAD TENDINE //
-
-function loadLists(){
-  apiRequest(host+"/lists", 'GET', {})
-    .then(data => {
-      const select=document.getElementById("menu-tendina-lists");
-      select.innerHTML="";
-      for (const list of data){
-        const option=document.createElement("option");
-        option.value=list.id;
-        option.innerHTML=list.Title;
-        select.appendChild(option);
-      }
-      loadElements();
-    })
-    .catch(error => console.error(error));
-}
-
-loadLists();
-
-function loadList(){
-  apiRequest(host+"/lists", 'GET', {})
-    .then(data => {
-      const select=document.getElementById("menu-tendina-liste");
-      select.innerHTML="";
-      for (const list of data){
-        const option=document.createElement("option");
-        option.value=list.id;
-        option.innerHTML=list.Title;
-        select.appendChild(option);
-      }
-      loadElements();
-    })
-    .catch(error => console.error(error));
-}
-
-loadList();
-
-
-function loadElements(){
-  ListTendina.addEventListener('change', () => {
-  apiRequest(host+"/elements/"+ListTendina.value , 'GET', {})
-    .then(data => {
-      console.log(data);
-      const select=document.getElementById("menu-tendina-elementi");
-      select.innerHTML="";
-      for (const list of data){
-        const option=document.createElement("option");
-        option.value=list.id;
-        option.innerHTML=list.Text;
-        select.appendChild(option);
-      }
-    })
-    .catch(error => console.error(error));
-})
-
-}
-
-
-*/
