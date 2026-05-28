@@ -14,6 +14,7 @@ const UpdateContactButton = document.getElementById("btnUpdateContact");
 const NameField = document.getElementById("editName");
 const SurnameField = document.getElementById("editSurname");
 const FavouritedCheckbox = document.getElementById("editIsFavorite");
+const VisualizzaTendina = document.getElementById("contactSelect");
 //GET//
 /*
 GetAllContacts.addEventListener("click", () => {
@@ -65,6 +66,23 @@ SearchButton.addEventListener("click", ()=>{
     })
 })
 
+VisualizzaTendina.addEventListener("change", ()=>{
+     apiRequest(host+"/contacts/" + select.value, "GET", {})
+    .then(data => {
+        console.log(data);
+        getResult.style="display:block";
+        document.getElementById("viewDetailName").innerHTML= data.name;
+        document.getElementById("viewDetailSurname").innerHTML= data.surname;
+
+        const list = document.createElement("ul");
+        const li = document.createElement("li");
+        list.appendChild(li);
+        li.innerHTML = data.name;
+        document.getElementById("viewDetailNumeriContainer").appendChild(list);
+    })
+})
+
+
 FavouritedCheckbox.addEventListener("click", ()=>{
     apiRequest(host+"/contacts/"+ select.value, "PUT", {favourited: FavouritedCheckbox.checked})
     .then(data => {
@@ -100,10 +118,21 @@ function loadContacts(){
 }
 loadContacts();
 
-
-select.addEventListener("change", () =>{
-    document.getElementById("backendContactContainer").style = "display:block";
-})
+function loadContactShow(){
+  apiRequest(host+"/contacts", 'GET', {})
+    .then(data => {
+      select.innerHTML="";
+      for (const contatto of data){
+        const option=document.createElement("option");
+        option.value=contatto.id;
+        option.innerHTML=contatto.name + " " + contatto.surname;
+        VisualizzaTendina.appendChild(option);
+      }
+      
+    })
+    .catch(error => console.error(error));
+}
+loadContactsShow();
 
 
 

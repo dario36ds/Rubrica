@@ -14,38 +14,53 @@
             <a href="crea.html" style="color: #28a745; font-weight: bold; text-decoration: none;">➕ Crea Nuovo Contatto</a>
         </nav>
 
-        <section class="form-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
-            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #0056b3;">Gestisci Contatto Selezionato</h2>
+        <section class="form-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #0056b3;">
+            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #0056b3; color: #0056b3;">✏️ Modifica Contatto</h2>
                 
-            <div class="form-group" style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border-radius: 4px;">
-                <label for="contactSelect" style="font-weight: bold; display: block; margin-bottom: 5px;">Scegli un contatto da caricare:</label>
-                <select id="contactSelect" class="form-control" style="width: 100%; padding: 8px;">
-                    <option value="">-- Scegli un contatto --</option>
+            <div class="form-group" style="margin-bottom: 20px; background: #f0f7ff; padding: 15px; border-radius: 4px;">
+                <label for="contactSelectEdit" style="font-weight: bold; display: block; margin-bottom: 5px;">Seleziona il contatto da modificare:</label>
+                <select id="contactSelectEdit" class="form-control" style="width: 100%; padding: 8px;">
+                    <option value="">-- Scegli un contatto da modificare --</option>
                 </select>
             </div>
 
-            <div id="backendContactContainer" style="display: none; padding: 15px; border: 1px dashed #0056b3; border-radius: 4px; margin-top: 15px;">
-                <h3 id="editTitle">Stai modificando il contatto</h3>
+            <div id="editContactFormContainer" style="display: none; padding: 15px; border: 1px dashed #0056b3; border-radius: 4px;">
+                <h3 id="editTitle" style="margin-top: 0; color: #0056b3; font-size: 16px;">Stai modificando il contatto</h3>
                 
                 <div class="form-group" style="margin-bottom: 10px;">
-                    <label for="editName">Modifica Nome</label>
-                    <input type="text" id="editName" class="form-control" placeholder="Nome">
+                    <label for="editName">Nome</label>
+                    <input type="text" id="editName" class="form-control">
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 10px;">
-                    <label for="editSurname">Modifica Cognome</label>
-                    <input type="text" id="editSurname" class="form-control" placeholder="Cognome">
+                    <label for="editSurname">Cognome</label>
+                    <input type="text" id="editSurname" class="form-control">
                 </div>
                 
                 <div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
-                    <span>Preferito:</span>
+                    <span style="font-weight: bold;">Preferito:</span>
                     <label class="card-fav-toggle" style="cursor: pointer; font-size: 20px;">
                         <input type="checkbox" id="editIsFavorite">
                         <span class="star">★</span>
                     </label>
                 </div>
 
-                <button type="button" id="btnUpdateContact" class="btn-submit" style="width: 100%; background-color: #0056b3;">
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="editNumber">Numero di Telefono principale</label>
+                    <input type="tel" id="editNumber" class="form-control">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 10px;">
+                    <label for="editEmail">Indirizzo Email principale</label>
+                    <input type="email" id="editEmail" class="form-control">
+                </div>
+
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="editAddress">Indirizzo di casa</label>
+                    <input type="text" id="editAddress" class="form-control">
+                </div>
+
+                <button type="button" id="btnUpdateContact" class="btn-submit" style="width: 100%; background-color: #0056b3; font-weight: bold;">
                     Salva Modifiche su Backend
                 </button>
             </div>
@@ -53,13 +68,57 @@
 
         <hr style="border: 0; border-top: 1px solid #ccc; margin: 0;">
 
-        <section class="list-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #ddd;">
-            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #28a745;">I tuoi Contatti</h2>
+        <section class="list-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #28a745;">
+            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #28a745; color: #28a745;">🔍 Cerca e Visualizza Contatti</h2>
             
             <div class="search-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
                 <div class="dynamic-input-group">
                     <input type="text" id="searchName" class="form-control" placeholder="Cerca contatto per nome...">
                     <button type="button" id="btnSearch" class="btn-add-field" style="padding: 0 15px;">Cerca</button>
+                </div>
+            </div>
+
+            <div class="form-group" style="margin-bottom: 20px; background: #f4fbf6; padding: 15px; border-radius: 4px; border-left: 4px solid #28a745;">
+                <label for="contactSelect" style="font-weight: bold; display: block; margin-bottom: 5px; color: #28a745;">Oppure seleziona dalla lista per vedere i dettagli completi:</label>
+                <select id="contactSelect" class="form-control" style="width: 100%; padding: 8px;">
+                    <option value="">-- Scegli un contatto da visualizzare --</option>
+                </select>
+            </div>
+
+            <div id="backendContactContainer" style="display: none; margin-bottom: 25px; padding: 20px; border: 1px dashed #28a745; border-radius: 6px; background-color: #fafafa;">
+                <h3 style="margin-top: 0; color: #28a745; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">📇 Scheda Contatto</h3>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px;">
+                    
+                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #6c757d; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">Anagrafica</span>
+                        <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px;">
+                            <span id="viewDetailName">--</span> <span id="viewDetailSurname">--</span>
+                            <span id="viewDetailFav" style="color: #ffc107; margin-left: 5px; display: none;">★</span>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #17a2b8; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📞 Telefoni</span>
+                        <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333;">
+                            <p style="margin: 0;" id="viewDetailTelefonoPrincipal"></p>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #fd7e14; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">✉️ Indirizzi Email</span>
+                        <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333;">
+                            <p style="margin: 0;" id="viewDetailEmailPrincipal">--</p>
+                        </div>
+                    </div>
+
+                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #20c997; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzo Residenza</span>
+                        <div style="margin-top: 5px; color: #333;">
+                            <p style="margin: 0;" id="viewDetailIndirizzo">--</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
