@@ -66,21 +66,38 @@ SearchButton.addEventListener("click", ()=>{
     })
 })
 
-VisualizzaTendina.addEventListener("change", ()=>{
-     apiRequest(host+"/contacts/" + select.value, "GET", {})
-    .then(data => {
-        console.log(data);
-        getResult.style="display:block";
-        document.getElementById("viewDetailName").innerHTML= data.name;
-        document.getElementById("viewDetailSurname").innerHTML= data.surname;
+VisualizzaTendina.addEventListener("change", () => {
+  apiRequest(host + "/contacts/" + select.value, "GET", {}).then((data) => {
+    getResult.style = "display:block";
+    document.getElementById("viewDetailName").innerHTML = data.name;
+    document.getElementById("viewDetailSurname").innerHTML = data.surname;
+    for (numeri of data.phone_numbers) {
+      const list = document.createElement("ul");
+      const li = document.createElement("li");
+      li.innerHTML = numeri.phone_number;
+      list.appendChild(li);
+      console.log(numeri.phone_number);
+      document.getElementById("viewDetailNumeriContainer").appendChild(list);
+    }
+    for (mail of data.emails) {
+      const list = document.createElement("ul");
+      const li = document.createElement("li");
+      li.innerHTML = mail.mail;
+      list.appendChild(li);
+      console.log(mail.phone_number);
+      document.getElementById("viewDetailEmailContainer").appendChild(list);
+    }
+    for (address of data.locations) {
+      const list = document.createElement("ul");
+      const li = document.createElement("li");
+      li.innerHTML = address.address;
+      list.appendChild(li);
+      console.log(address.address);
+      document.getElementById("viewDetailIndirizzo").appendChild(list);
+    }
+  });
+});
 
-        const list = document.createElement("ul");
-        const li = document.createElement("li");
-        list.appendChild(li);
-        li.innerHTML = data.name;
-        document.getElementById("viewDetailNumeriContainer").appendChild(list);
-    })
-})
 
 
 FavouritedCheckbox.addEventListener("click", ()=>{
