@@ -16,39 +16,7 @@ const FavouritedCheckbox = document.getElementById("editIsFavorite");
 const VisualizzaTendina = document.getElementById("contactSelect");
 const ModificaTendina = document.getElementById("contactSelectEdit");
 const DivTendina = document.getElementById("editContactFormContainer");
-//GET//
-/*
-GetAllContacts.addEventListener("click", () => {
-  apiRequest(host + "/contacts", "GET")
-    .then((data) => {
-      const table = document.createElement("table");
-      const trH = document.createElement("tr");
-      const th = document.createElement("th");
-      const th1 = document.createElement("th");
-      th.textContent = "Nome";
-      th1.textContent = "Cognome";
-      trH.appendChild(th);
-      trH.appendChild(th1);
-      table.appendChild(trH);
-      getResult.innerHTML = "";
-      for (const contatto of data) {
-        const tr = document.createElement("tr");
-        const td2 = document.createElement("td");
-        const td3 = document.createElement("td");
-        const td4 = document.createElement("td");
-        tr.id = contatto.id;
-        td2.innerHTML = contatto.name;
-        td3.innerHTML = contatto.surname;
-        tr.appendChild(td2);
-        tr.appendChild(td3);
-        table.appendChild(tr);
-      }
-      getResult.appendChild(table);
-    })
-   
-    .catch((error) => console.error(error));
-});
-*/
+
 
 SearchButton.addEventListener("click", ()=>{
     apiRequest(host+"/contacts", "GET", {})
@@ -82,13 +50,18 @@ ModificaTendina.addEventListener("change", () =>{
   DivTendina.style = "display: block";
    apiRequest(host + "/contacts/" + ModificaTendina.value, "GET", {})
   .then((data) => {
+    //console.log(data.favourited);
     document.getElementById("editTitle").innerHTML = "";
     document.getElementById("editPhoneContainer").innerHTML = "";
     document.getElementById("editEmailContainer").innerHTML = "";
     document.getElementById("editAddressContainer").innerHTML = "";
+    FavouritedCheckbox.checked=false;
     document.getElementById("editTitle").append("Stai modificando il contatto" + " " + data.name + " " + data.surname);
     document.getElementById("editName").placeholder= data.name;
     document.getElementById("editSurname").placeholder= data.surname;
+    if(data.favourited==1){
+      FavouritedCheckbox.checked=true;
+    }
 
     for (numeri of data.phone_numbers) {
       const input = document.createElement('input');
@@ -124,7 +97,7 @@ VisualizzaTendina.addEventListener("change", () => {
 
     document.getElementById("viewDetailNumeriContainer").innerHTML = "";
     document.getElementById("viewDetailEmailContainer").innerHTML = "";
-    document.getElementById("viewDetailIndirizzo").innerHTML = "";
+    document.getElementById("viewDetailIndirizzoContainer").innerHTML = "";
 
     for (numeri of data.phone_numbers) {
       
@@ -149,7 +122,7 @@ VisualizzaTendina.addEventListener("change", () => {
       li.innerHTML = address.address;
       list.appendChild(li);
       console.log(address.address);
-      document.getElementById("viewDetailIndirizzo").appendChild(list);
+      document.getElementById("viewDetailIndirizzoContainer").appendChild(list);
     }
   });
 });
@@ -157,16 +130,15 @@ VisualizzaTendina.addEventListener("change", () => {
 
 
 FavouritedCheckbox.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts/"+ VisualizzaTendina.value, "PUT", {favourited: FavouritedCheckbox.checked})
+    apiRequest(host+"/contacts/"+ ModificaTendina.value, "PUT", {favourited: FavouritedCheckbox.checked})
     .then(data => {
         console.log(data);
     })
     .catch((error) => console.error(error));
-    loadContacts();
 })
 
 UpdateContactButton.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts/" + VisualizzaTendina.value, "PUT", {name: NameField.value , surname: SurnameField.value})
+    apiRequest(host+"/contacts/" + ModificaTendina.value, "PUT", {name: NameField.value , surname: SurnameField.value})
     .then(data => {
         console.log(data);
     })
