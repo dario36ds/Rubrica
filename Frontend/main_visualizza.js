@@ -64,9 +64,11 @@ ModificaTendina.addEventListener("change", () =>{
     }
 
     for (numeri of data.phone_numbers) {
+      console.log(numeri);
       const input = document.createElement('input');
       input.className ='form-control edit-phone-input';
       input.placeholder = numeri.phone_number;
+      input.id=numeri.id;
       document.getElementById("editPhoneContainer").appendChild(input);
     }
 
@@ -74,6 +76,7 @@ ModificaTendina.addEventListener("change", () =>{
       const input = document.createElement('input');
       input.className ='form-control edit-email-input';
       input.placeholder = mails.mail;
+      input.id=mails.id;
       document.getElementById("editEmailContainer").appendChild(input);
     }
 
@@ -81,6 +84,7 @@ ModificaTendina.addEventListener("change", () =>{
       const input = document.createElement('input');
       input.className ='form-control edit-address-input';
       input.placeholder = address.address;
+      input.id=address.id;
       document.getElementById("editAddressContainer").appendChild(input);
     }
     
@@ -141,56 +145,69 @@ FavouritedCheckbox.addEventListener("click", ()=>{
         console.log(data);
     })
     .catch((error) => console.error(error));
-})
+});
+
 
 UpdateContactButton.addEventListener("click", () => {
   apiRequest(host + "/contacts/" + ModificaTendina.value, "PUT", {
     name: NameField.value,
     surname: SurnameField.value,
-
   })
-    .then((data) => {
-    })
+    .then((data) => {})
     .catch((error) => console.error(error));
-});
 
-UpdateContactButton.addEventListener("click", ()=>{
+    for (putNumero of document.getElementsByClassName("edit-phone-input")) {
+      apiRequest(host + "/numbers/" + putNumero.id, "PUT", {
+        phone_number: putNumero.value,
+      })
+        .then((data) => {})
+        .catch((error) => console.error(error));
+    }
+
+       for (putMail of document.getElementsByClassName("edit-email-input")) {
+      apiRequest(host + "/emails/" + putMail.id, "PUT", {
+        mail: putMail.value,
+      })
+        .then((data) => {})
+        .catch((error) => console.error(error));
+    }
+
+       for (putAddress of document.getElementsByClassName("edit-address-input")) {
+      apiRequest(host + "/locations/" + putAddress.id, "PUT", {
+        address: putAddress.value,
+      })
+        .then((data) => {})
+        .catch((error) => console.error(error));
+    }
+
   for (nuovoNumero of document.getElementsByClassName("new-phone")) {
-        apiRequest(host + "/numbers", "POST", {
-          contact_id: ModificaTendina.value,
-          phone_number: nuovoNumero.value,
-        })
-         .then((data) => {
+    apiRequest(host + "/numbers", "POST", {
+      contact_id: ModificaTendina.value,
+      phone_number: nuovoNumero.value,
     })
-    .catch((error) => console.error(error));
-      }
-});
+      .then((data) => {})
+      .catch((error) => console.error(error));
+  }
 
-
-UpdateContactButton.addEventListener("click", ()=>{
   for (nuovaMail of document.getElementsByClassName("new-email")) {
-        apiRequest(host + "/emails", "POST", {
-          contact_id: ModificaTendina.value,
-          mail: nuovaMail.value,
-        })
-         .then((data) => {
+    apiRequest(host + "/emails", "POST", {
+      contact_id: ModificaTendina.value,
+      mail: nuovaMail.value,
     })
-    .catch((error) => console.error(error));
-      }
-});
+      .then((data) => {})
+      .catch((error) => console.error(error));
+  }
 
-
-UpdateContactButton.addEventListener("click", ()=>{
   for (nuovoIndirizzo of document.getElementsByClassName("new-address")) {
-        apiRequest(host + "/locations", "POST", {
-          contact_id: ModificaTendina.value,
-          address: nuovoIndirizzo.value,
-        })
-         .then((data) => {
+    apiRequest(host + "/locations", "POST", {
+      contact_id: ModificaTendina.value,
+      address: nuovoIndirizzo.value,
     })
-    .catch((error) => console.error(error));
-      }
+      .then((data) => {})
+      .catch((error) => console.error(error));
+  }
 });
+
 
 
 function loadContacts(){

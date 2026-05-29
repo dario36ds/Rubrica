@@ -43,20 +43,23 @@ class PhoneNumberController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PhoneNumber $phoneNumbers)
+    public function update(Request $request, PhoneNumber $number)
     {
+        echo "ARRAY: $number";
         $validated = $request->validate([
-            'phone_number'=> ['sometimes', 'required', 'stirng'],
+            'phone_number'=> ['sometimes', 'required', 'string'],
         ]);
 
-        $phoneNumber->update($validated);
-        return response()->json($phoneNumber, 201);
+        $number->update($validated);
+
+        
+        return response()->json($number, 201);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PhoneNumber $phoneNumbers)
+    public function destroy(PhoneNumber $phoneNumber)
     {
         $phoneNumber->delete();
         return response()->json(null);
