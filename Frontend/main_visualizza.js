@@ -98,9 +98,13 @@ VisualizzaTendina.addEventListener("change", () => {
     document.getElementById("viewDetailNumeriContainer").innerHTML = "";
     document.getElementById("viewDetailEmailContainer").innerHTML = "";
     document.getElementById("viewDetailIndirizzoContainer").innerHTML = "";
+    document.getElementById("viewDetailFavBadge").style = "display:none";
 
+    if(data.favourited==1){
+     document.getElementById("viewDetailFavBadge").style = "display:block";
+    }
+    
     for (numeri of data.phone_numbers) {
-      
       const list = document.createElement("ul");
       const li = document.createElement("li");
       li.innerHTML = numeri.phone_number;
@@ -108,6 +112,7 @@ VisualizzaTendina.addEventListener("change", () => {
       console.log(numeri.phone_number);
       document.getElementById("viewDetailNumeriContainer").appendChild(list);
     }
+
     for (mail of data.emails) {
       const list = document.createElement("ul");
       const li = document.createElement("li");
@@ -116,6 +121,7 @@ VisualizzaTendina.addEventListener("change", () => {
       console.log(mail.phone_number);
       document.getElementById("viewDetailEmailContainer").appendChild(list);
     }
+
     for (address of data.locations) {
       const list = document.createElement("ul");
       const li = document.createElement("li");
@@ -137,14 +143,54 @@ FavouritedCheckbox.addEventListener("click", ()=>{
     .catch((error) => console.error(error));
 })
 
-UpdateContactButton.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts/" + ModificaTendina.value, "PUT", {name: NameField.value , surname: SurnameField.value})
-    .then(data => {
-        console.log(data);
+UpdateContactButton.addEventListener("click", () => {
+  apiRequest(host + "/contacts/" + ModificaTendina.value, "PUT", {
+    name: NameField.value,
+    surname: SurnameField.value,
+
+  })
+    .then((data) => {
     })
     .catch((error) => console.error(error));
-    loadContacts();
-})
+});
+
+UpdateContactButton.addEventListener("click", ()=>{
+  for (nuovoNumero of document.getElementsByClassName("new-phone")) {
+        apiRequest(host + "/numbers", "POST", {
+          contact_id: ModificaTendina.value,
+          phone_number: nuovoNumero.value,
+        })
+         .then((data) => {
+    })
+    .catch((error) => console.error(error));
+      }
+});
+
+
+UpdateContactButton.addEventListener("click", ()=>{
+  for (nuovaMail of document.getElementsByClassName("new-email")) {
+        apiRequest(host + "/emails", "POST", {
+          contact_id: ModificaTendina.value,
+          mail: nuovaMail.value,
+        })
+         .then((data) => {
+    })
+    .catch((error) => console.error(error));
+      }
+});
+
+
+UpdateContactButton.addEventListener("click", ()=>{
+  for (nuovoIndirizzo of document.getElementsByClassName("new-address")) {
+        apiRequest(host + "/locations", "POST", {
+          contact_id: ModificaTendina.value,
+          address: nuovoIndirizzo.value,
+        })
+         .then((data) => {
+    })
+    .catch((error) => console.error(error));
+      }
+});
 
 
 function loadContacts(){
@@ -210,15 +256,15 @@ function createDynamicField(containerId, inputType, placeholder, className) {
 
 // Event Listeners per i bottoni "Aggiungi" nel form di modifica
 document.getElementById('btnAddPhoneField').addEventListener('click', () => {
-    createDynamicField('editPhoneContainer', 'tel', 'Nuovo numero', 'edit-phone-input');
+    createDynamicField('editPhoneContainer', 'tel', 'Nuovo numero', 'edit-phone-input new-phone');
 });
 
 document.getElementById('btnAddEmailField').addEventListener('click', () => {
-    createDynamicField('editEmailContainer', 'email', 'Nuova email', 'edit-email-input');
+    createDynamicField('editEmailContainer', 'email', 'Nuova email', 'edit-email-input new-email');
 });
 
 document.getElementById('btnAddAddressField').addEventListener('click', () => {
-    createDynamicField('editAddressContainer', 'text', 'Nuovo indirizzo', 'edit-address-input');
+    createDynamicField('editAddressContainer', 'text', 'Nuovo indirizzo', 'edit-address-input new-address');
 });
 
 // Gestione eliminazione intero contatto

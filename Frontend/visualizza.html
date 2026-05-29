@@ -43,25 +43,55 @@
             gap: 15px;
             margin-top: 20px;
         }
-        /* Piccolo bottone di rimozione per la scheda di visualizzazione */
-        .btn-inline-delete {
-            background: none;
+        /* Bottone compatto per eliminare la singola riga di input */
+        .btn-remove-field {
+            background-color: #e63946;
+            color: white;
             border: none;
-            color: #dc3545;
+            border-radius: 4px;
+            padding: 8px 12px;
             cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-remove-field:hover {
+            background-color: #c32f3a;
+        }
+        /* Badge Preferito per la visualizzazione dettagli */
+        .fav-badge {
+            background-color: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+            padding: 4px 8px;
+            border-radius: 4px;
             font-size: 12px;
             font-weight: bold;
-            padding: 2px 6px;
-            border-radius: 3px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
         }
-        .btn-inline-delete:hover {
-            background-color: #f8d7da;
-        }
-        .view-row {
+        /* Nuova riga per layout dati visualizzati con bottone inline */
+        .view-data-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 4px 0;
+            background: #fdfdfd;
+            padding: 6px 10px;
+            border-radius: 4px;
+            border: 1px solid #eaeaea;
+        }
+        .btn-delete-inline {
+            background-color: #fff3f3;
+            color: #dc3545;
+            border: 1px solid #f5c6cb;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .btn-delete-inline:hover {
+            background-color: #dc3545;
+            color: white;
         }
     </style>
 </head>
@@ -119,6 +149,7 @@
                     <div id="editEmailContainer">
                         <div class="dynamic-row">
                             <input type="email" class="form-control edit-email-input" placeholder="Email principale">
+                            <button type="button" class="btn-remove-field" onclick="this.parentElement.remove()">❌</button>
                         </div>
                     </div>
                     <button type="button" id="btnAddEmailField" class="btn-secondary">➕ Aggiungi Email</button>
@@ -129,6 +160,7 @@
                     <div id="editAddressContainer">
                         <div class="dynamic-row">
                             <input type="text" class="form-control edit-address-input" placeholder="Indirizzo principale">
+                            <button type="button" class="btn-remove-field" onclick="this.parentElement.remove()">❌</button>
                         </div>
                     </div>
                     <button type="button" id="btnAddAddressField" class="btn-secondary">➕ Aggiungi Indirizzo</button>
@@ -171,28 +203,33 @@
                     
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #6c757d; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">Anagrafica</span>
-                        <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px;">
-                            <span id="viewDetailName">--</span> <span id="viewDetailSurname">--</span>
-                            <span id="viewDetailFav" style="color: #ffc107; margin-left: 5px; display: none;">★</span>
+                        <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px; display: flex; align-items: center; gap: 10px;">
+                            <div>
+                                <span id="viewDetailName">--</span> <span id="viewDetailSurname">--</span>
+                                <span id="viewDetailFav" style="color: #ffc107; margin-left: 5px; display: none;">★</span>
+                            </div>
+                            <div id="viewDetailFavBadge" class="fav-badge" style="display: none">
+                                <span>⭐ Contatto Preferito</span>
+                            </div>
                         </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #17a2b8; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📞 Telefoni</span>
                         <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                            </div>
+                        </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #fd7e14; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">✉️ Indirizzi Email</span>
                         <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                            </div>
+                        </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #20c997; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzi Residenza</span>
                         <div id="viewDetailIndirizzoContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                            </div>
+                        </div>
                     </div>
 
                 </div>
