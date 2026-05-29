@@ -5,6 +5,65 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rubrica - Visualizza e Modifica</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Stili di utilità per i nuovi bottoni dinamici ed eliminazione */
+        .dynamic-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 8px;
+            align-items: center;
+        }
+        .btn-danger {
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .btn-danger:hover {
+            background-color: #bd2130;
+        }
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+        .action-buttons-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        /* Piccolo bottone di rimozione per la scheda di visualizzazione */
+        .btn-inline-delete {
+            background: none;
+            border: none;
+            color: #dc3545;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
+        .btn-inline-delete:hover {
+            background-color: #f8d7da;
+        }
+        .view-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 4px 0;
+        }
+    </style>
 </head>
 <body>
 
@@ -45,24 +104,44 @@
                     </label>
                 </div>
 
-                <div id="numbercontainer" class="form-group" style="margin-bottom: 10px;">
-                    <label for="editNumber">Numero di Telefono principale</label>
-                    <input type="tel" id="editNumber" class="form-control">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Numeri di Telefono</label>
+                    <div id="editPhoneContainer">
+                        <div class="dynamic-row">
+                            <input type="tel" class="form-control edit-phone-input" placeholder="Numero principale">
+                        </div>
+                    </div>
+                    <button type="button" id="btnAddPhoneField" class="btn-secondary">➕ Aggiungi Telefono</button>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 10px;">
-                    <label for="editEmail">Indirizzo Email principale</label>
-                    <input type="email" id="editEmail" class="form-control">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Indirizzi Email</label>
+                    <div id="editEmailContainer">
+                        <div class="dynamic-row">
+                            <input type="email" class="form-control edit-email-input" placeholder="Email principale">
+                        </div>
+                    </div>
+                    <button type="button" id="btnAddEmailField" class="btn-secondary">➕ Aggiungi Email</button>
                 </div>
 
                 <div class="form-group" style="margin-bottom: 20px;">
-                    <label for="editAddress">Indirizzo di casa</label>
-                    <input type="text" id="editAddress" class="form-control">
+                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Indirizzi di Residenza</label>
+                    <div id="editAddressContainer">
+                        <div class="dynamic-row">
+                            <input type="text" class="form-control edit-address-input" placeholder="Indirizzo principale">
+                        </div>
+                    </div>
+                    <button type="button" id="btnAddAddressField" class="btn-secondary">➕ Aggiungi Indirizzo</button>
                 </div>
 
-                <button type="button" id="btnUpdateContact" class="btn-submit" style="width: 100%; background-color: #0056b3; font-weight: bold;">
-                    Salva Modifiche su Backend
-                </button>
+                <div class="action-buttons-container">
+                    <button type="button" id="btnUpdateContact" class="btn-submit" style="flex: 2; background-color: #0056b3; font-weight: bold; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                        💾 Salva Modifiche su Backend
+                    </button>
+                    <button type="button" id="btnDeleteContact" class="btn-danger" style="flex: 1; padding: 10px;">
+                        🗑️ Elimina Contatto
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -100,23 +179,20 @@
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #17a2b8; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📞 Telefoni</span>
-                        <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333;">
-                            <p style="margin: 0;" id="viewDetailTelefonoPrincipal"></p>
-                        </div>
+                        <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
+                            </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #fd7e14; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">✉️ Indirizzi Email</span>
-                        <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333;">
-                            <p style="margin: 0;" id="viewDetailEmailPrincipal"></p>
-                        </div>
+                        <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
+                            </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #20c997; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzo Residenza</span>
-                        <div style="margin-top: 5px; color: #333;">
-                            <p style="margin: 0;" id="viewDetailIndirizzo"></p>
-                        </div>
+                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzi Residenza</span>
+                        <div id="viewDetailIndirizzoContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
+                            </div>
                     </div>
 
                 </div>

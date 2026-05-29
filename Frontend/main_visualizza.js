@@ -83,18 +83,34 @@ ModificaTendina.addEventListener("change", () =>{
    apiRequest(host + "/contacts/" + ModificaTendina.value, "GET", {})
   .then((data) => {
     document.getElementById("editTitle").innerHTML = "";
+    document.getElementById("editPhoneContainer").innerHTML = "";
+    document.getElementById("editEmailContainer").innerHTML = "";
+    document.getElementById("editAddressContainer").innerHTML = "";
     document.getElementById("editTitle").append("Stai modificando il contatto" + " " + data.name + " " + data.surname);
     document.getElementById("editName").placeholder= data.name;
     document.getElementById("editSurname").placeholder= data.surname;
 
     for (numeri of data.phone_numbers) {
-      const input = document.createElement("input");
-      input.type="tel";
-      input.style="form-control";
-      console.log(numeri.phone_number);
-      document.getElementById("numbercontainer").appendChild(input);
+      const input = document.createElement('input');
+      input.className ='form-control edit-phone-input';
+      input.placeholder = numeri.phone_number;
+      document.getElementById("editPhoneContainer").appendChild(input);
     }
-    document.getElementById("editNumber").placeholder= data.phone_numbers.phone_number;
+
+    for (mails of data.emails) {
+      const input = document.createElement('input');
+      input.className ='form-control edit-email-input';
+      input.placeholder = mails.mail;
+      document.getElementById("editEmailContainer").appendChild(input);
+    }
+
+    for (address of data.locations) {
+      const input = document.createElement('input');
+      input.className ='form-control edit-address-input';
+      input.placeholder = address.address;
+      document.getElementById("editAddressContainer").appendChild(input);
+    }
+    
 })
 });
 
@@ -190,3 +206,57 @@ function loadContactsShow(){
     .catch(error => console.error(error));
 }
 loadContactsShow();
+
+
+///--------------------------------_///
+
+
+// Funzione generica per aggiungere un campo di input con bottone "Rimuovi"
+function createDynamicField(containerId, inputType, placeholder, className) {
+    const container = document.getElementById(containerId);
+    
+    const row = document.createElement('div');
+    row.className = 'dynamic-row';
+    
+    const input = document.createElement('input');
+    input.type = inputType;
+    input.className = `form-control ${className}`;
+    input.placeholder = placeholder;
+    
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-danger';
+    removeBtn.innerText = '❌';
+    removeBtn.onclick = function() {
+        row.remove();
+    };
+    
+    row.appendChild(input);
+    row.appendChild(removeBtn);
+    container.appendChild(row);
+}
+
+// Event Listeners per i bottoni "Aggiungi" nel form di modifica
+document.getElementById('btnAddPhoneField').addEventListener('click', () => {
+    createDynamicField('editPhoneContainer', 'tel', 'Nuovo numero', 'edit-phone-input');
+});
+
+document.getElementById('btnAddEmailField').addEventListener('click', () => {
+    createDynamicField('editEmailContainer', 'email', 'Nuova email', 'edit-email-input');
+});
+
+document.getElementById('btnAddAddressField').addEventListener('click', () => {
+    createDynamicField('editAddressContainer', 'text', 'Nuovo indirizzo', 'edit-address-input');
+});
+
+// Gestione eliminazione intero contatto
+document.getElementById('btnDeleteContact').addEventListener('click', function() {
+    const selectedId = document.getElementById('contactSelectEdit').value;
+    if (!selectedId) return alert('Seleziona prima un contatto!');
+    
+    if (confirm('Sei sicuro di voler eliminare definitivamente questo contatto?')) {
+        
+        alert('Contatto eliminato!');
+        location.reload(); // Ricarica la pagina per aggiornare le liste
+    }
+});
