@@ -138,7 +138,6 @@
                     <label style="font-weight: bold; display: block; margin-bottom: 5px;">Numeri di Telefono</label>
                     <div id="editPhoneContainer">
                         <div class="dynamic-row">
-                            <input type="tel" class="form-control edit-phone-input" placeholder="Numero principale">
                         </div>
                     </div>
                     <button type="button" id="btnAddPhoneField" class="btn-secondary">➕ Aggiungi Telefono</button>
@@ -147,9 +146,7 @@
                 <div class="form-group" style="margin-bottom: 15px;">
                     <label style="font-weight: bold; display: block; margin-bottom: 5px;">Indirizzi Email</label>
                     <div id="editEmailContainer">
-                        <div class="dynamic-row">
-                            <input type="email" class="form-control edit-email-input" placeholder="Email principale">
-                            <button type="button" class="btn-remove-field" onclick="this.parentElement.remove()">❌</button>
+                        <div class="dynamic-row">     
                         </div>
                     </div>
                     <button type="button" id="btnAddEmailField" class="btn-secondary">➕ Aggiungi Email</button>
@@ -216,18 +213,39 @@
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #17a2b8; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📞 Telefoni</span>
+                        <!--
+                            Il JS che popola questo container dovrà generare righe con struttura:
+                            <div class="view-data-row">
+                                <span>+39 333 123456</span>
+                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
+                            </div>
+                        -->
                         <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
                         </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #fd7e14; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">✉️ Indirizzi Email</span>
+                        <!--
+                            Il JS che popola questo container dovrà generare righe con struttura:
+                            <div class="view-data-row">
+                                <span>mario@example.com</span>
+                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
+                            </div>
+                        -->
                         <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
                         </div>
                     </div>
 
                     <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #20c997; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
                         <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzi Residenza</span>
+                        <!--
+                            Il JS che popola questo container dovrà generare righe con struttura:
+                            <div class="view-data-row">
+                                <span>Via Roma 1, Milano</span>
+                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
+                            </div>
+                        -->
                         <div id="viewDetailIndirizzoContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
                         </div>
                     </div>

@@ -59,9 +59,9 @@ class PhoneNumberController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PhoneNumber $phoneNumber)
+    public function destroy(PhoneNumber $number)
     {
-        $phoneNumber->delete();
+        $number->delete();
         return response()->json(null);
     }
 }

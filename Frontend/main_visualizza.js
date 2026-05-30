@@ -64,28 +64,69 @@ ModificaTendina.addEventListener("change", () =>{
     }
 
     for (numeri of data.phone_numbers) {
-      console.log(numeri);
-      const input = document.createElement('input');
-      input.className ='form-control edit-phone-input';
+      const riga = document.createElement("div");
+      riga.className = "dynamic-row";
+
+      const input = document.createElement("input");
+      input.className = "form-control edit-phone-input";
       input.placeholder = numeri.phone_number;
-      input.id=numeri.id;
-      document.getElementById("editPhoneContainer").appendChild(input);
+      input.id = numeri.id;
+
+      const elimina = document.createElement("button");
+      elimina.className = "btn-remove-field";
+      elimina.innerHTML = "❌";
+      elimina.onclick = () => {
+        apiRequest(host + "/numbers/" + input.id, 'DELETE', {});
+        riga.remove();
+      }
+
+      riga.appendChild(input);
+      riga.appendChild(elimina);
+      document.getElementById("editPhoneContainer").appendChild(riga);
     }
 
     for (mails of data.emails) {
+      const riga = document.createElement("div");
+      riga.className = "dynamic-row";
+
       const input = document.createElement('input');
-      input.className ='form-control edit-email-input';
+      input.className = 'form-control edit-email-input';
       input.placeholder = mails.mail;
-      input.id=mails.id;
-      document.getElementById("editEmailContainer").appendChild(input);
+      input.id = mails.id;
+
+      const elimina = document.createElement("button");
+      elimina.className = "btn-remove-field";
+      elimina.innerHTML = "❌";
+      elimina.onclick = () => {
+        apiRequest(host + "/emails/" + input.id, 'DELETE', {});
+        riga.remove(); 
+      }
+
+      riga.appendChild(input);
+      riga.appendChild(elimina);
+      document.getElementById("editEmailContainer").appendChild(riga);
     }
 
     for (address of data.locations) {
+      const riga = document.createElement("div");
+      riga.className = "dynamic-row";
+
       const input = document.createElement('input');
       input.className ='form-control edit-address-input';
       input.placeholder = address.address;
       input.id=address.id;
-      document.getElementById("editAddressContainer").appendChild(input);
+
+      const elimina = document.createElement("button");
+      elimina.className = "btn-remove-field";
+      elimina.innerHTML = "❌";
+      elimina.onclick = () => {
+        apiRequest(host + "/locations/" + input.id, 'DELETE', {});
+        riga.remove(); 
+      }
+
+      riga.appendChild(input);
+      riga.appendChild(elimina);
+      document.getElementById("editAddressContainer").appendChild(riga);
     }
     
 })
@@ -243,7 +284,7 @@ function loadContactsShow(){
 loadContactsShow();
 
 
-///--------------------------------_///
+///--------------------------------///
 
 
 // Funzione generica per aggiungere un campo di input con bottone "Rimuovi"
@@ -284,14 +325,14 @@ document.getElementById('btnAddAddressField').addEventListener('click', () => {
     createDynamicField('editAddressContainer', 'text', 'Nuovo indirizzo', 'edit-address-input new-address');
 });
 
-// Gestione eliminazione intero contatto
-document.getElementById('btnDeleteContact').addEventListener('click', function() {
+
+document.getElementById('btnDeleteContact').addEventListener('click', () => {
     const selectedId = document.getElementById('contactSelectEdit').value;
     if (!selectedId) return alert('Seleziona prima un contatto!');
     
     if (confirm('Sei sicuro di voler eliminare definitivamente questo contatto?')) {
-        
+        apiRequest(host + "/contacts/" + ModificaTendina.value, 'DELETE', {});
         alert('Contatto eliminato!');
-        location.reload(); // Ricarica la pagina per aggiornare le liste
+        location.reload();
     }
 });
