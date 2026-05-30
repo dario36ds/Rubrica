@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string("phone_number");
             $table->foreignId("contact_id")
                 ->constrained()
-                ->restrictOnDelete()
+                ->CascadeOnDelete()
                 ->cascadeOnUpdate();
         });
     }
