@@ -13,6 +13,7 @@ const SearchButton = document.getElementById("btnSearch");
 const UpdateContactButton = document.getElementById("btnUpdateContact");
 const NameField = document.getElementById("editName");
 const SurnameField = document.getElementById("editSurname");
+const DescriptionField = document.getElementById("editDescription");
 const FavouritedCheckbox = document.getElementById("editIsFavorite");
 const VisualizzaTendina = document.getElementById("contactSelect");
 const ModificaTendina = document.getElementById("contactSelectEdit");
@@ -105,8 +106,9 @@ ModificaTendina.addEventListener("change", () => {
       document.getElementById("editAddressContainer").innerHTML = "";
       FavouritedCheckbox.checked = false;
       document.getElementById("editTitle").append("Stai modificando il contatto" + " " + data.name + " " + data.surname);
-      document.getElementById("editName").placeholder = data.name;
-      document.getElementById("editSurname").placeholder = data.surname;
+      NameField.placeholder = data.name;
+      SurnameField.placeholder = data.surname;
+      DescriptionField.placeholder = data.description;
       if (data.favourited == 1) {
         FavouritedCheckbox.checked = true;
       }
@@ -262,14 +264,16 @@ FavouritedCheckbox.addEventListener("click", () => {
     .catch((error) => console.error(error));
 });
 
-
 UpdateContactButton.addEventListener("click", () => {
-  apiRequest(host + "/contacts/" + ModificaTendina.value, "PUT", {
-    name: NameField.value,
-    surname: SurnameField.value,
-  })
-    .then((data) => { })
-    .catch((error) => console.error(error));
+
+ const body = {};
+if (NameField.value) {body.name = NameField.value;}
+if (SurnameField.value) {body.surname = SurnameField.value;}
+if (DescriptionField.value) {body.description = DescriptionField.value;}
+
+if (body.name || body.surname || body.description) {
+    apiRequest(host + "/contacts/" + ModificaTendina.value, "PUT", body);
+}
 
   for (putNumero of document.getElementsByClassName("edit-phone-input")) {
     apiRequest(host + "/numbers/" + putNumero.id, "PUT", {
