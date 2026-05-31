@@ -1,159 +1,76 @@
 <!DOCTYPE html>
 <html lang="it">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rubrica - Visualizza e Modifica</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        /* Stili di utilità per i nuovi bottoni dinamici ed eliminazione */
-        .dynamic-row {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 8px;
-            align-items: center;
-        }
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-danger:hover {
-            background-color: #bd2130;
-        }
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-            margin-top: 5px;
-        }
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-        .action-buttons-container {
-            display: flex;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        /* Bottone compatto per eliminare la singola riga di input */
-        .btn-remove-field {
-            background-color: #e63946;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            padding: 8px 12px;
-            cursor: pointer;
-            font-weight: bold;
-        }
-        .btn-remove-field:hover {
-            background-color: #c32f3a;
-        }
-        /* Badge Preferito per la visualizzazione dettagli */
-        .fav-badge {
-            background-color: #fff3cd;
-            color: #856404;
-            border: 1px solid #ffeeba;
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-        /* Nuova riga per layout dati visualizzati con bottone inline */
-        .view-data-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: #fdfdfd;
-            padding: 6px 10px;
-            border-radius: 4px;
-            border: 1px solid #eaeaea;
-        }
-        .btn-delete-inline {
-            background-color: #fff3f3;
-            color: #dc3545;
-            border: 1px solid #f5c6cb;
-            padding: 4px 8px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .btn-delete-inline:hover {
-            background-color: #dc3545;
-            color: white;
-        }
-    </style>
 </head>
+
 <body>
 
-    <div class="container" style="display: flex; flex-direction: column; gap: 40px; max-width: 800px; margin: 0 auto; padding: 20px;">
-        
-        <nav>
-            <a href="crea.html" style="color: #28a745; font-weight: bold; text-decoration: none;">➕ Crea Nuovo Contatto</a>
+    <div class="container page-container">
+
+        <nav class="top-nav">
+            <a href="crea.html" class="nav-link-create">➕ Crea Nuovo Contatto</a>
         </nav>
 
-        <section class="form-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #0056b3;">
-            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #0056b3; color: #0056b3;">✏️ Modifica Contatto</h2>
-                
-            <div class="form-group" style="margin-bottom: 20px; background: #f0f7ff; padding: 15px; border-radius: 4px;">
-                <label for="contactSelectEdit" style="font-weight: bold; display: block; margin-bottom: 5px;">Seleziona il contatto da modificare:</label>
-                <select id="contactSelectEdit" class="form-control" style="width: 100%; padding: 8px;">
+        <!-- SEZIONE MODIFICA -->
+        <section class="form-panel panel-blue">
+            <h2 class="panel-title panel-title--blue">✏️ Modifica Contatto</h2>
+
+            <div class="form-group form-group--highlight-blue">
+                <label for="contactSelectEdit" class="label-bold">Seleziona il contatto da modificare:</label>
+                <select id="contactSelectEdit" class="form-control">
                     <option value="" disabled>-- Scegli un contatto da modificare --</option>
                 </select>
             </div>
 
-            <div id="editContactFormContainer" style="display: none; padding: 15px; border: 1px dashed #0056b3; border-radius: 4px;">
-                <h3 id="editTitle" style="margin-top: 0; color: #0056b3; font-size: 16px;"></h3>
-                
-                <div class="form-group" style="margin-bottom: 10px;">
+            <div id="editContactFormContainer" class="edit-form-container hidden">
+                <h3 id="editTitle" class="edit-form-title"></h3>
+
+                <div class="form-group">
                     <label for="editName">Nome</label>
                     <input type="text" id="editName" class="form-control">
                 </div>
-                
-                <div class="form-group" style="margin-bottom: 10px;">
+
+                <div class="form-group">
                     <label for="editSurname">Cognome</label>
                     <input type="text" id="editSurname" class="form-control">
                 </div>
-                
-                <div style="margin: 15px 0; display: flex; align-items: center; gap: 10px;">
-                    <span style="font-weight: bold;">Preferito:</span>
-                    <label class="card-fav-toggle" style="cursor: pointer; font-size: 20px;">
+
+                <div class="form-group">
+                    <label for="editDescription">Descrizione</label>
+                    <textarea id="editDescription" class="form-control textarea-resizable" rows="3"></textarea>
+                </div>
+
+                <div class="fav-row">
+                    <span class="fav-label">Preferito:</span>
+                    <label class="card-fav-toggle">
                         <input type="checkbox" id="editIsFavorite">
                         <span class="star">★</span>
                     </label>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Numeri di Telefono</label>
+                <div class="form-group">
+                    <label class="label-bold label-block">Numeri di Telefono</label>
                     <div id="editPhoneContainer">
-                        <div class="dynamic-row">
-                        </div>
+                        <div class="dynamic-row"></div>
                     </div>
                     <button type="button" id="btnAddPhoneField" class="btn-secondary">➕ Aggiungi Telefono</button>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 15px;">
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Indirizzi Email</label>
+                <div class="form-group">
+                    <label class="label-bold label-block">Indirizzi Email</label>
                     <div id="editEmailContainer">
-                        <div class="dynamic-row">     
-                        </div>
+                        <div class="dynamic-row"></div>
                     </div>
                     <button type="button" id="btnAddEmailField" class="btn-secondary">➕ Aggiungi Email</button>
                 </div>
 
-                <div class="form-group" style="margin-bottom: 20px;">
-                    <label style="font-weight: bold; display: block; margin-bottom: 5px;">Indirizzi di Residenza</label>
+                <div class="form-group form-group--last">
+                    <label class="label-bold label-block">Indirizzi di Residenza</label>
                     <div id="editAddressContainer">
                         <div class="dynamic-row">
                             <input type="text" class="form-control edit-address-input" placeholder="Indirizzo principale">
@@ -164,85 +81,74 @@
                 </div>
 
                 <div class="action-buttons-container">
-                    <button type="button" id="btnUpdateContact" class="btn-submit" style="flex: 2; background-color: #0056b3; font-weight: bold; color: white; padding: 10px; border: none; border-radius: 4px; cursor: pointer;">
+                    <button type="button" id="btnUpdateContact" class="btn-submit btn-save">
                         💾 Salva Modifiche su Backend
                     </button>
-                    <button type="button" id="btnDeleteContact" class="btn-danger" style="flex: 1; padding: 10px;">
+                    <button type="button" id="btnDeleteContact" class="btn-danger btn-delete">
                         🗑️ Elimina Contatto
                     </button>
                 </div>
             </div>
         </section>
 
-        <hr style="border: 0; border-top: 1px solid #ccc; margin: 0;">
+        <hr class="section-divider">
 
-        <section class="list-panel" style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #28a745;">
-            <h2 style="margin-top: 0; padding-bottom: 10px; border-bottom: 2px solid #28a745; color: #28a745;">🔍 Cerca e Visualizza Contatti</h2>
-            
-            <div class="search-container" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
+        <!-- SEZIONE VISUALIZZA -->
+        <section class="list-panel panel-green">
+            <h2 class="panel-title panel-title--green">🔍 Cerca e Visualizza Contatti</h2>
+
+            <div class="search-container">
                 <div class="dynamic-input-group">
                     <input type="text" id="searchName" class="form-control" placeholder="Cerca contatto per nome...">
                 </div>
             </div>
 
-            <div class="form-group" id="contactSelect" style="margin-bottom: 20px; background: #f4fbf6; padding: 15px; border-radius: 4px; border-left: 4px solid #28a745;">
-            </div>
+            <label for="contactSelect" class="label-bold label-block">Contatti:</label>
+            <div class="form-group contact-list-box" id="contactSelect"></div>
 
-            <div id="backendContactContainer" style="display: none; margin-bottom: 25px; padding: 20px; border: 1px dashed #28a745; border-radius: 6px; background-color: #fafafa;">
-                <h3 style="margin-top: 0; color: #28a745; border-bottom: 1px solid #e0e0e0; padding-bottom: 5px;">📇 Scheda Contatto</h3>
-                
-                <div style="display: flex; flex-direction: column; gap: 15px;">
-                    
-                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #6c757d; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">Anagrafica</span>
-                        <div style="font-size: 18px; font-weight: bold; color: #333; margin-top: 5px; display: flex; align-items: center; gap: 10px;">
+            <!-- SCHEDA DETTAGLIO -->
+            <div id="backendContactContainer" class="contact-detail-container hidden">
+                <h3 class="contact-detail-title">📇 Scheda Contatto</h3>
+
+                <div class="contact-detail-grid">
+
+                    <!-- Nome e Cognome -->
+                    <div class="detail-card detail-card--gray">
+                        <span class="detail-card__label">Nome e Cognome</span>
+                        <div class="detail-card__name-row">
                             <div>
-                                <span id="viewDetailName">--</span> <span id="viewDetailSurname">--</span>
-                                <span id="viewDetailFav" style="color: #ffc107; margin-left: 5px; display: none;">★</span>
+                                <span id="viewDetailName">--</span>
+                                <span id="viewDetailSurname">--</span>
+                                <span id="viewDetailFav" class="fav-star hidden">★</span>
                             </div>
-                            <div id="viewDetailFavBadge" class="fav-badge" style="display: none">
+                            <div id="viewDetailFavBadge" class="fav-badge hidden">
                                 <span>⭐ Contatto Preferito</span>
                             </div>
                         </div>
                     </div>
 
-                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #17a2b8; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📞 Telefoni</span>
-                        <!--
-                            Il JS che popola questo container dovrà generare righe con struttura:
-                            <div class="view-data-row">
-                                <span>+39 333 123456</span>
-                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
-                            </div>
-                        -->
-                        <div id="viewDetailNumeriContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                        </div>
+                    <!-- Telefoni -->
+                    <div class="detail-card detail-card--cyan">
+                        <span class="detail-card__label">📞 Telefoni</span>
+                        <div id="viewDetailNumeriContainer" class="detail-card__list"></div>
                     </div>
 
-                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #fd7e14; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">✉️ Indirizzi Email</span>
-                        <!--
-                            Il JS che popola questo container dovrà generare righe con struttura:
-                            <div class="view-data-row">
-                                <span>mario@example.com</span>
-                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
-                            </div>
-                        -->
-                        <div id="viewDetailEmailContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                        </div>
+                    <!-- Email -->
+                    <div class="detail-card detail-card--orange">
+                        <span class="detail-card__label">✉️ Indirizzi Email</span>
+                        <div id="viewDetailEmailContainer" class="detail-card__list"></div>
                     </div>
 
-                    <div style="background: #fff; padding: 10px 15px; border-radius: 4px; border-left: 4px solid #20c997; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
-                        <span style="font-size: 12px; text-transform: uppercase; color: #888; font-weight: bold; display: block;">📍 Indirizzi Residenza</span>
-                        <!--
-                            Il JS che popola questo container dovrà generare righe con struttura:
-                            <div class="view-data-row">
-                                <span>Via Roma 1, Milano</span>
-                                <button class="btn-delete-inline" onclick="this.closest('.view-data-row').remove()">🗑️ Elimina</button>
-                            </div>
-                        -->
-                        <div id="viewDetailIndirizzoContainer" style="margin-top: 5px; color: #333; display: flex; flex-direction: column; gap: 5px;">
-                        </div>
+                    <!-- Indirizzi -->
+                    <div class="detail-card detail-card--teal">
+                        <span class="detail-card__label">📍 Indirizzi Residenza</span>
+                        <div id="viewDetailIndirizzoContainer" class="detail-card__list"></div>
+                    </div>
+
+                    <!-- Descrizione -->
+                    <div class="detail-card detail-card--purple">
+                        <span class="detail-card__label">📝 Descrizione</span>
+                        <div id="viewDetailDescription" class="detail-card__description"></div>
                     </div>
 
                 </div>
@@ -252,8 +158,9 @@
         </section>
 
     </div>
-    
+
     <script src="api.js"></script>
     <script src="main_visualizza.js"></script>
 </body>
+
 </html>
