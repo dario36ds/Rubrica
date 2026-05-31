@@ -23,32 +23,41 @@ const DivTendina = document.getElementById("editContactFormContainer");
 SearchField.addEventListener("input", ()=>{
   apiRequest(host+"/contacts", "GET", {})
     .then(data => {
-        VisualizzaTendina.innerHTML="";
-        ModificaTendina.innerHTML="";
+      VisualizzaTendina.innerHTML = "";
+      ModificaTendina.innerHTML = "";
 
-        for(contatto of data){
-            if(contatto.name.includes(SearchField.value)){
-                const option=document.createElement("option");
-                option.value=contatto.id;
-                option.innerHTML=contatto.name + " " + contatto.surname;
-                ModificaTendina.appendChild(option);
-            
-            }
-                
+      for (contatto of data) {
+        if (contatto.name.includes(SearchField.value) || contatto.name.includes(SearchField.value) ) {
+          const option = document.createElement("option");
+          option.value = contatto.id;
+          option.innerHTML = contatto.name + " " + contatto.surname;
+          ModificaTendina.appendChild(option);
+
         }
-        for(contatto of data){
-            if(contatto.name.includes(SearchField.value)){
-                const option=document.createElement("div");
-                option.value=contatto.id;
-                option.innerHTML=contatto.name + " " + contatto.surname;
-                option.onclick = () => {
-                  vedi(option.value);
-                }
-                VisualizzaTendina.appendChild(option);
-            
-            }
-                
+
+      }
+      let trovato = false;
+      for (contatto of data) {
+        if (contatto.name.includes(SearchField.value) || contatto.surname.includes(SearchField.value) ) {
+          trovato = true;
+          const div = document.createElement("div");
+          div.value = contatto.id;
+          div.innerHTML = contatto.name + " " + contatto.surname;
+          div.onclick = () => {
+            vedi(div.value);
+          }
+          VisualizzaTendina.appendChild(div);
+
         }
+
+      }
+      if (!trovato) {
+        const div = document.createElement("div");
+
+        div.innerHTML = "Nessun contatto trovato";
+
+        VisualizzaTendina.appendChild(div);
+      }
     })
 })
 
@@ -141,9 +150,9 @@ ModificaTendina.addEventListener("change", () =>{
 
 
 
-  function vedi(VisualizzaTendina){
+  function vedi(id){
   getResult.style = "display:block";
-  apiRequest(host + "/contacts/" + VisualizzaTendina, "GET", {}).then(
+  apiRequest(host + "/contacts/" + id, "GET", {}).then(
     (data) => {
       getResult.style = "display:block";
       document.getElementById("viewDetailName").innerHTML = data.name;
