@@ -19,8 +19,9 @@ const ModificaTendina = document.getElementById("contactSelectEdit");
 const DivTendina = document.getElementById("editContactFormContainer");
 
 
-SearchButton.addEventListener("click", ()=>{
-    apiRequest(host+"/contacts", "GET", {})
+
+SearchField.addEventListener("input", ()=>{
+  apiRequest(host+"/contacts", "GET", {})
     .then(data => {
         VisualizzaTendina.innerHTML="";
         ModificaTendina.innerHTML="";
@@ -37,9 +38,12 @@ SearchButton.addEventListener("click", ()=>{
         }
         for(contatto of data){
             if(contatto.name.includes(SearchField.value)){
-                const option=document.createElement("option");
+                const option=document.createElement("div");
                 option.value=contatto.id;
                 option.innerHTML=contatto.name + " " + contatto.surname;
+                option.onclick = () => {
+                  vedi(option.value);
+                }
                 VisualizzaTendina.appendChild(option);
             
             }
@@ -47,6 +51,7 @@ SearchButton.addEventListener("click", ()=>{
         }
     })
 })
+
 
 ModificaTendina.addEventListener("change", () =>{
   DivTendina.style = "display: block";
@@ -135,9 +140,10 @@ ModificaTendina.addEventListener("change", () =>{
 });
 
 
-VisualizzaTendina.addEventListener("change", () => {
+
+  function vedi(VisualizzaTendina){
   getResult.style = "display:block";
-  apiRequest(host + "/contacts/" + VisualizzaTendina.value, "GET", {}).then(
+  apiRequest(host + "/contacts/" + VisualizzaTendina, "GET", {}).then(
     (data) => {
       getResult.style = "display:block";
       document.getElementById("viewDetailName").innerHTML = data.name;
@@ -196,7 +202,8 @@ VisualizzaTendina.addEventListener("change", () => {
       }
     },
   );
-});
+}
+
 
 
 
