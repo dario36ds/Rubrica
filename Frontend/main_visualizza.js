@@ -1,3 +1,4 @@
+
 const host = "http://localhost:8000/api";
 
 // -- LOAD TENDINE -- //
@@ -23,6 +24,7 @@ SearchButton.addEventListener("click", ()=>{
     .then(data => {
         VisualizzaTendina.innerHTML="";
         ModificaTendina.innerHTML="";
+
         for(contatto of data){
             if(contatto.name.includes(SearchField.value)){
                 const option=document.createElement("option");
@@ -50,7 +52,7 @@ ModificaTendina.addEventListener("change", () =>{
   DivTendina.style = "display: block";
    apiRequest(host + "/contacts/" + ModificaTendina.value, "GET", {})
   .then((data) => {
-    //console.log(data.favourited);
+
     document.getElementById("editTitle").innerHTML = "";
     document.getElementById("editPhoneContainer").innerHTML = "";
     document.getElementById("editEmailContainer").innerHTML = "";
@@ -134,48 +136,66 @@ ModificaTendina.addEventListener("change", () =>{
 
 
 VisualizzaTendina.addEventListener("change", () => {
-  apiRequest(host + "/contacts/" + VisualizzaTendina.value, "GET", {})
-  .then((data) => {
-    getResult.style = "display:block";
-    document.getElementById("viewDetailName").innerHTML = data.name;
-    document.getElementById("viewDetailSurname").innerHTML = data.surname;
+  getResult.style = "display:block";
+  apiRequest(host + "/contacts/" + VisualizzaTendina.value, "GET", {}).then(
+    (data) => {
+      getResult.style = "display:block";
+      document.getElementById("viewDetailName").innerHTML = data.name;
+      document.getElementById("viewDetailSurname").innerHTML = data.surname;
+      document.getElementById("viewDetailNumeriContainer").innerHTML = "";
+      document.getElementById("viewDetailEmailContainer").innerHTML = "";
+      document.getElementById("viewDetailIndirizzoContainer").innerHTML = "";
+      document.getElementById("viewDetailFavBadge").style = "display:none";
 
-    document.getElementById("viewDetailNumeriContainer").innerHTML = "";
-    document.getElementById("viewDetailEmailContainer").innerHTML = "";
-    document.getElementById("viewDetailIndirizzoContainer").innerHTML = "";
-    document.getElementById("viewDetailFavBadge").style = "display:none";
+      if (data.favourited == 1) {
+        document.getElementById("viewDetailFavBadge").style = "display:block";
+      }
 
-    if(data.favourited==1){
-     document.getElementById("viewDetailFavBadge").style = "display:block";
-    }
-    
-    for (numeri of data.phone_numbers) {
-      const list = document.createElement("ul");
-      const li = document.createElement("li");
-      li.innerHTML = numeri.phone_number;
-      list.appendChild(li);
-      console.log(numeri.phone_number);
-      document.getElementById("viewDetailNumeriContainer").appendChild(list);
-    }
+      if (data.phone_numbers.length == 0) {
+        const div = document.createElement("div");
+        div.innerHTML = "Non ci sono numeri per il contatatto selezionato";
+        document.getElementById("viewDetailNumeriContainer").append(div);
+      } else {
+        for (numeri of data.phone_numbers) {
+          const list = document.createElement("ul");
+          const li = document.createElement("li");
+          li.innerHTML = numeri.phone_number;
+          list.appendChild(li);
+          list.style="margin-left:20px;"
+          document.getElementById("viewDetailNumeriContainer").appendChild(list);
+        }
+      }
+      if (data.emails.length == 0) {
+        const div = document.createElement("div");
+        div.innerHTML = "Non ci sono mail per il contatatto selezionato";
+        document.getElementById("viewDetailEmailContainer").append(div);
+      } else {
+        for (mail of data.emails) {
+          const list = document.createElement("ul");
+          const li = document.createElement("li");
+          li.innerHTML = mail.mail;
+          list.appendChild(li);
+          list.style="margin-left:20px;"
+          document.getElementById("viewDetailEmailContainer").appendChild(list);
+        }
+      }
 
-    for (mail of data.emails) {
-      const list = document.createElement("ul");
-      const li = document.createElement("li");
-      li.innerHTML = mail.mail;
-      list.appendChild(li);
-      console.log(mail.phone_number);
-      document.getElementById("viewDetailEmailContainer").appendChild(list);
-    }
-
-    for (address of data.locations) {
-      const list = document.createElement("ul");
-      const li = document.createElement("li");
-      li.innerHTML = address.address;
-      list.appendChild(li);
-      console.log(address.address);
-      document.getElementById("viewDetailIndirizzoContainer").appendChild(list);
-    }
-  });
+      if (data.locations.length == 0) {
+        const div = document.createElement("div");
+        div.innerHTML = "Non ci sono indirizzi per il contatatto selezionato";
+        document.getElementById("viewDetailIndirizzoContainer").append(div);
+      } else {
+        for (address of data.locations) {
+          const list = document.createElement("ul");
+          const li = document.createElement("li");
+          li.innerHTML = address.address;
+          list.appendChild(li);
+          list.style="margin-left:20px;"
+          document.getElementById("viewDetailIndirizzoContainer").appendChild(list);
+        }
+      }
+    },
+  );
 });
 
 
@@ -247,6 +267,8 @@ UpdateContactButton.addEventListener("click", () => {
       .then((data) => {})
       .catch((error) => console.error(error));
   }
+DivTendina.style = "display: none";
+alert('Contatto aggiornato!');
 });
 
 
@@ -254,7 +276,7 @@ UpdateContactButton.addEventListener("click", () => {
 function loadContacts(){
   apiRequest(host+"/contacts", 'GET', {})
     .then(data => {
-      VisualizzaTendina.innerHTML="";
+
       for (const contatto of data){
         const option=document.createElement("option");
         option.value=contatto.id;
@@ -270,7 +292,6 @@ loadContacts();
 function loadContactsShow(){
   apiRequest(host+"/contacts", 'GET', {})
     .then(data => {
-      VisualizzaTendina.innerHTML="";
       for (const contatto of data){
         const option=document.createElement("option");
         option.value=contatto.id;
@@ -287,7 +308,6 @@ loadContactsShow();
 ///--------------------------------///
 
 
-// Funzione generica per aggiungere un campo di input con bottone "Rimuovi"
 function createDynamicField(containerId, inputType, placeholder, className) {
     const container = document.getElementById(containerId);
     
@@ -312,7 +332,6 @@ function createDynamicField(containerId, inputType, placeholder, className) {
     container.appendChild(row);
 }
 
-// Event Listeners per i bottoni "Aggiungi" nel form di modifica
 document.getElementById('btnAddPhoneField').addEventListener('click', () => {
     createDynamicField('editPhoneContainer', 'tel', 'Nuovo numero', 'edit-phone-input new-phone');
 });
