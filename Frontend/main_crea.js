@@ -2,14 +2,9 @@ const host = "http://localhost:8000/api";
 
 const NameField = document.getElementById("name");
 const SurnameField = document.getElementById("surname");
-const NumberField = document.getElementById("number");
-const AddNumber = document.getElementById("addNumber");
-const EmailField = document.getElementById("email");
-const AddEmail = document.getElementById("addEmail");
-const AddressField = document.getElementById("address");
-const AddAddress = document.getElementById("addAddress");
-const PostContact = document.getElementById("postContact");;
+const PostContact = document.getElementById("postContact");
 const FavouriteChecbox = document.getElementById("isFavorite");
+const DescriptionField = document.getElementById("description");
 
 
 
@@ -19,38 +14,48 @@ PostContact.addEventListener("click", () => {
   apiRequest(host + "/contacts", "POST", {
     name: NameField.value,
     surname: SurnameField.value,
-    favourited :FavouriteChecbox.checked,
+    description: DescriptionField.value,
+    favourited: FavouriteChecbox.checked,
   })
     .then((data) => {
       console.log(data);
       const MyID = data.id;
 
-      for(numeri of document.getElementsByClassName("numbers")){
+      for (numeri of document.getElementsByClassName("number")) {
+        apiRequest(host + "/numbers", "POST", {
+          contact_id: MyID,
+          phone_number: numeri.value,
+        })
+          .then((data) => {
+            console.log(data);
+          })
 
-        console.log(numeri.value);
       }
 
-      apiRequest(host + "/emails", "POST", {
-        contact_id: MyID,
-        mail: EmailField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
-      apiRequest(host + "/numbers", "POST", {
-        contact_id: MyID,
-        phone_number: NumberField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
-      apiRequest(host + "/locations", "POST", {
-        contact_id: MyID,
-        address: AddressField.value,
-      })
-        .then((data)=>{
-        console.log(data);
-      })
+      if (document.getElementsByClassName("email").length != 0) {
+        for (numeri of document.getElementsByClassName("email")) {
+          apiRequest(host + "/emails", "POST", {
+            contact_id: MyID,
+            mail: numeri.value,
+          })
+            .then((data) => {
+              console.log(data);
+            })
+
+        }
+      }
+
+      if (document.getElementsByClassName("address").length != 0) {
+        for (numeri of document.getElementsByClassName("address")) {
+          apiRequest(host + "/locations", "POST", {
+            contact_id: MyID,
+            address: numeri.value,
+          })
+            .then((data) => {
+              console.log(data);
+            })
+        }
+      }
     })
     .catch((error) => console.error(error));
 });
@@ -93,6 +98,6 @@ document.getElementById('addEmail').addEventListener('click', () => {
 });
 
 document.getElementById('addAddress').addEventListener('click', () => {
-  createDynamicField('address-container', 'text', 'Nuovo indirizzo', 'mail');
+  createDynamicField('address-container', 'text', 'Nuovo indirizzo', 'address');
 });
 
