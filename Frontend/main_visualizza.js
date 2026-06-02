@@ -347,21 +347,6 @@ function loadContacts() {
 }
 loadContacts();
 
-function loadContactsShow() {
-  apiRequest(host + "/contacts", 'GET', {})
-    .then(data => {
-      for (const contatto of data) {
-        const option = document.createElement("option");
-        option.value = contatto.id;
-        option.innerHTML = contatto.name + " " + contatto.surname;
-        VisualizzaTendina.appendChild(option);
-      }
-
-    })
-    .catch(error => console.error(error));
-}
-loadContactsShow();
-
 
 ///--------------------------------///
 
@@ -404,12 +389,8 @@ document.getElementById('btnAddAddressField').addEventListener('click', () => {
 
 
 document.getElementById('btnDeleteContact').addEventListener('click', () => {
-  const selectedId = document.getElementById('contactSelectEdit').value;
-  if (!selectedId) return alert('Seleziona prima un contatto!');
-
   if (confirm('Sei sicuro di voler eliminare definitivamente questo contatto?')) {
     apiRequest(host + "/contacts/" + ModificaTendina.value, 'DELETE', {});
     alert('Contatto eliminato!');
-    location.reload();
   }
 });
