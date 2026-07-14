@@ -1,0 +1,5 @@
+.DS_Store
+Backend/.DS_Store
+Backend/app/.DS_Store
+Backend/.env
+Backend/vendor/

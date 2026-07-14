@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rubrica - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .home-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 80vh;
+            gap: 30px;
+        }
+        .action-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            text-decoration: none;
+            color: #333;
+            transition: transform 0.2s;
+            border: 2px solid transparent;
+        }
+        .action-card:hover {
+            transform: translateY(-5px);
+        }
+        .card-add { border-color: #28a745; }
+        .card-view { border-color: #0056b3; }
+        .action-card h2 { margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="container home-container">
+        <h1>Benvenuto nella tua Rubrica</h1>
+        <p>Cosa desideri fare oggi?</p>
+
+        <a href="crea.html" class="action-card card-add">
+            <h2>➕ Aggiungi Contatto</h2>
+            <p>Inserisci i dettagli di una nuova persona.</p>
+        </a>
+
+        <a href="visualizza.html" class="action-card card-view">
+            <h2>🔍 Visualizza Rubrica</h2>
+            <p>Cerca, modifica o elimina i tuoi contatti.</p>
+        </a>
+    </div>
+
+</body>
+</html>
